@@ -2,10 +2,10 @@ homeassistant:
   # Name of the location where Home Assistant is running
   name: Home
   # Location required to calculate the time the sun rises and sets
-  latitude: 53.4663
-  longitude: -2.1342
+  latitude: 53.6667
+  longitude: -2.3048
   # Impacts weather/sunrise data (altitude above sea level in meters)
-  elevation: 0
+  elevation: 192
   # metric for Metric, imperial for Imperial
   unit_system: metric
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
@@ -14,7 +14,7 @@ homeassistant:
   customize: !include customize.yaml
 
 # Show links to resources in log and frontend
-introduction:
+#introduction:
 
 # Enables the frontend
 frontend:
@@ -22,26 +22,33 @@ frontend:
 # Enables configuration UI
 config:
 
+# Enable mqtt
+#mqtt:
+
+homekit:
+  filter:
+    exclude_domains:
+      - device_tracker
+
+recorder:
+  purge_keep_days: 5
+
 http:
   # Secrets are defined in the file secrets.yaml
-  # api_password: !secret http_password
+   api_password: !secret http_password
+   ssl_certificate: /root/dehydrated/certs/kplus.duckdns.org/fullchain.pem
+   ssl_key: /root/dehydrated/certs/kplus.duckdns.org/privkey.pem
+   base_url: kplus.duckdns.org:8123
+
   # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
   # base_url: example.duckdns.org:8123
 
-# Checks for available updates
-# Note: This component will send some information about your system to
-# the developers to assist with development of Home Assistant.
-# For more information, please see:
-# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
-updater:
-  # Optional, allows Home Assistant developers to focus on popular components.
-  # include_used_components: true
 
 # Discover some devices automatically
 discovery:
 
 # Allows you to issue voice commands from the frontend in enabled browsers
-conversation:
+#conversation:
 
 # Enables support for tracking state changes over time
 history:
@@ -50,7 +57,10 @@ history:
 logbook:
 
 # Enables a map showing the location of tracked devices
-map:
+#map:
+
+# cloud
+cloud:
 
 # Track the sun
 sun:
@@ -62,10 +72,65 @@ sensor:
 # Text to speech
 tts:
   - platform: google
-
-# Cloud
-cloud:
+    language: 'zh-cn'
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 57600
 
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
+shell_command: !include shell_command.yaml
+
+notify:
+  - name: general_notice
+    platform: pushbullet
+    api_key: o.WbLuNGaH4gN3LPjb264djnZ58uCtP241
+
+device_tracker:
+  - platform: sky_hub
+    host: 192.168.1.1
+
+light:
+  - platform: yeelight
+    devices:
+      192.168.1.160:
+        name: Kitchen
+
+# add broadlink controller, currently only for TV
+# comment out broadlink, as 0.5 versoin doesn't work
+#switch:
+#  - platform: broadlink
+#    host: 192.168.1.141
+#    mac: '34:EA:34:C7:AF:BC'
+#    type: rm_mini
+#    friendly_name: "Broadlink"
+
+#media_player:
+#  - platform: universal
+#    name: TV
+#    children:
+#      - media_player.lg
+#      - media_player.chromecast
+#    commands:
+#      turn_on:
+#        service: script.turn_on
+#        entity_id: script.tv_on
+#
+#  - platform: lg_netcast
+#    host: 192.168.1.131
+#    name: LG
+#    access_token: 214850
+
+#google_assistant:
+#  project_id: ha-voicecontrol
+#  client_id: G93pycbl9l5AJHxarVsLwZZiSxX0t6qoajWB2mC4FdKRUSP8tI3THPTNSzwsoJZfzP3YOJBxkugwUcPw
+#  access_token: 0B5CSPvtGDxWP1UJliM76yPDYvalOAMhlO7BjksmUBwCHtSmvA7F1cL9Ab4zpXE7T9qNwsGGYJakHjXw
+#  agent_user_id: roger
+#  api_key: AIzaSyDNfYpdW7sLVGAiaRLgi3Cf8Nv4eeEcKk4
+#  expose_by_default: false
+
+xiaomi_aqara:
+  discovery_retry: 5
+  gateways:
+    - key: 0DDE6994A5624AA5

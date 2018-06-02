@@ -1,1 +1,261 @@
-[]
+- alias: Turn on corridor light after sunset
+  hide_entity: True
+  initial_state: 'on'
+  trigger:
+#    - platform: sun
+#      event: sunset
+    - platform: sun
+      event: sunset
+      offset: '00:30:00'
+    - platform: sun
+      event: sunset
+      offset: '01:00:00'
+    - platform: sun
+      event: sunset
+      offset: '01:30:00'
+    - platform: sun
+      event: sunset
+      offset: '02:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: sensor.illumination_34ce00838c96
+        below: 350
+      - condition: state
+        entity_id: switch.plug_158d0001881ddd
+        state: "off"
+  action:
+    - service: switch.turn_on
+      entity_id: switch.plug_158d0001881ddd
+#    - service: media_player.play_media
+#      data:
+#        entity_id: media_player.gougou
+#        media_content_id: 'http://www.soundsboom.com/download/151033/speech-middle-aged-man-says-merry-christmas-blastwavefx-04251.mp3'
+#        media_content_type: music
+    - service: tts.google_say
+      entity_id: media_player.gougou
+      data:
+        message: '天黑了，走廊灯已打开'
+
+- alias: Turn off corridor light after 2:00 am
+  hide_entity: True
+  initial_state: 'on'
+  trigger:
+    - platform: time
+      at: '02:00:00'
+  action:
+    - service: switch.turn_off
+      entity_id: switch.plug_158d0001881ddd
+
+- alias: Temp greetings from christmas tree
+  hide_entity: True
+  initial_state: 'off'
+  trigger: 
+    platform: state
+    entity_id: switch.plug_158d0001881ddd
+    from: 'off'
+    to: 'on'
+  action:
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.gougou
+        media_content_id: 'http://www.soundsboom.com/download/151033/speech-middle-aged-man-says-merry-christmas-blastwavefx-04251.mp3'
+        media_content_type: music
+
+- alias: Turn on Living light when dark and there is person
+  hide_entity: True
+  initial_state: 'on'
+  trigger: 
+    platform: state 
+    entity_id: binary_sensor.motion_sensor_158d00015aab3a
+    from: 'off'
+    to: 'on' 
+  condition:
+    condition: and
+    conditions:
+        # only active between 1 hour after sunset and 1 hour before sunrise
+      - condition: or
+        conditions:
+          - condition: sun
+            after: sunset
+            after_offset: "-1:00:00"
+          - condition: sun
+            before: sunrise
+            before_offset: "1:00:00"
+        # when dark
+      - condition: numeric_state
+        entity_id: sensor.illumination_34ce00838c96
+        below: "600"
+        # when LED is off or less than 20 in brightness
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: light.yeelight_rgb_34ce00847b4f
+            state: "off"
+          - condition: template
+            value_template: '{{states.light.yeelight_rgb_34ce00847b4f.attributes.brightness < 20}}'
+  action:
+    service: light.turn_on
+    entity_id: light.yeelight_rgb_34ce00847b4f
+    data:
+      brightness: 80
+    # we should not enable voice for this, otherwise google home will always
+    # be active, so LED will never turn off after 1 mins
+
+- alias: Quick turn off Living light
+  initial_state: 'on'
+  hide_entity: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d00015aab3a
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: and
+    conditions:
+        # only when LED was on
+      - condition: state
+        entity_id: light.yeelight_rgb_34ce00847b4f
+        state: "on"
+        # if no media in play
+#      - condition: state
+#        entity_id: media_player.gougou
+#        state: "off"
+#      - condition: state
+#        entity_id: media_player.tv
+#        state: "off"
+  action:
+    service: light.turn_off
+    entity_id: light.yeelight_rgb_34ce00847b4f
+
+- alias: Not do quick turn off if light has on for 3 mins
+  hide_entity: True
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: light.yeelight_rgb_34ce00847b4f
+    to: 'on'
+    for:
+      minutes: 3
+  action:
+    service: automation.turn_off
+    entity_id: automation.quick_turn_off_living_light 
+
+- alias: Dim living room if idle for 5 mins
+  initial_state: 'on'
+  hide_entity: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d00015aab3a
+    from: 'on'
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0 
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.yeelight_rgb_34ce00847b4f
+        state: "on"
+      - condition: template
+        value_template: '{{states.light.yeelight_rgb_34ce00847b4f.attributes.brightness > 20}}'
+  action:
+    - service: light.turn_on
+      entity_id: light.yeelight_rgb_34ce00847b4f
+      data:
+        brightness: 10
+#    - service: tts.google_say
+#      entity_id: media_player.gougou
+#      data:
+#        message: '长时间无人活动，1分钟后关闭客厅所有设备'
+
+- alias: Turn off everything in living room if idle for 6 mins
+  initial_state: 'on'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_sensor_158d00015aab3a
+      from: 'on'
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 6
+        seconds: 0
+    - platform: state
+      entity_id: binary_sensor.motion_sensor_158d00015aab3a
+      from: 'on'
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 15
+        seconds: 0
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: light.yeelight_rgb_34ce00847b4f
+        state: "on"
+      - condition: template
+        value_template: '{{states.light.yeelight_rgb_34ce00847b4f.attributes.brightness < 20}}'
+  action:
+    - service: light.turn_off
+      entity_id: light.yeelight_rgb_34ce00847b4f
+#    - service: media_player.turn_off
+#      entity_id: media_player.gougou
+#    - service: media_player.turn_off
+#      entity_id: media_player.tv
+
+- alias: Reset automation when light is off
+  initial_state: 'on'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: light.yeelight_rgb_34ce00847b4f
+      from: 'on'
+      to: 'off'
+  action:
+    - service: automation.turn_on
+      entity_id: automation.quick_turn_off_living_light
+
+- alias: humidity too high
+  initial_state: 'on'
+  hide_entity: True
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.humidity_158d00016c595c
+    above: 80
+    for:
+      minutes: 3
+  condition:
+    - condition: state
+      entity_id: binary_sensor.door_window_sensor_158d000121ba10
+      state: "off"
+  action:
+    service: notify.general_notice
+    data:
+      title: humidity too high
+      message: "请开窗透气"
+      target: device/Terry
+
+- alias: humidity not high
+  initial_state: 'on'
+  hide_entity: True
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.humidity_158d00016c595c
+    below: 70
+    for:
+      minutes: 3
+  condition:
+    - condition: state
+      entity_id: binary_sensor.door_window_sensor_158d000121ba10
+      state: "on"
+  action:
+    service: notify.general_notice
+    data:
+      title: humidity not high
+      message: "可以关窗了"
+      target: device/Terry

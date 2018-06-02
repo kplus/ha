@@ -1,0 +1,43 @@
+  binary_sensor.door_window_sensor_158d000121ba10:
+    friendly_name: 门窗感应器
+    hidden: true
+
+  switch.plug_158d0001881ddd:
+   friendly_name: 走廊灯
+   google_assistant: ture
+   google_assistant_name: "corridor light"
+
+  binary_sensor.motion_sensor_158d00015aab3a:
+    friendly_name: 移动感应器
+    hidden: true
+
+  light.gateway_light_34ce00838c96:
+    friendly_name: 小米网关灯
+    google_assistant: false
+
+  light.yeelight_rgb_34ce00847b4f:
+    hidden: true
+
+  light.kitchen:
+    friendly_name: 厨房灯
+    google_assistant: ture
+    google_assistant_name: "kitchen light"
+
+  sensor.humidity_158d00016c595c:
+    friendly_name: 湿度计
+
+  sensor.illumination_34ce00838c96:
+    friendly_name: 小米光线感应器
+    hidden: true
+
+  sensor.temperature_158d00016c595c:
+    friendly_name: 温度计
+
+  sun.sun:
+    friendly_name: 日照
+
+  sensor.yr_symbol:
+    friendly_name: 天气
+
+  script.tv_on:
+    hidden: true
