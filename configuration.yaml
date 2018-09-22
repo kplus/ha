@@ -86,6 +86,12 @@ xiaomi_aqara:
   gateways:
     - key: 0DDE6994A5624AA5
 
+mqtt:
+  broker: 192.168.1.7
+  port: 2883
+  username: ha
+  password: smarthome
+
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
