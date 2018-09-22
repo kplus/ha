@@ -92,6 +92,30 @@ mqtt:
   username: ha
   password: smarthome
 
+# test mqtt sonoff switch
+switch:
+  - platform: mqtt
+    name: "sonoff-switch"
+    state_topic: "stat/sonoff/POWER"
+    command_topic: "cmnd/sonoff/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+
+sensor:
+# test mqtt sonoff humidity sensor
+  - platform: mqtt
+    name: "sonoff temp"
+    state_topic: "tele/sonoff/SENSOR"
+    value_template: "{{ value_json['AM2301'].Temperature }}"
+    unit_of_measurement: "°C"
+
+  - platform: mqtt
+    name: "sonoff humidity"
+    state_topic: "tele/sonoff/SENSOR"
+    value_template: "{{ value_json['AM2301'].Humidity }}"
+
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
