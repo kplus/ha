@@ -73,6 +73,13 @@ notify:
     platform: pushbullet
     api_key: o.WbLuNGaH4gN3LPjb264djnZ58uCtP241
 
+device_tracker:
+  - platform: unifi
+    username: ha
+    password: smarthome
+    verify_ssl: false
+    ssid_filter:
+      - 'KJICC'
 
 group: !include groups.yaml
 automation: !include automations.yaml
