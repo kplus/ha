@@ -81,6 +81,11 @@ device_tracker:
     ssid_filter:
       - 'KJICC'
 
+xiaomi_aqara:
+  discovery_retry: 5
+  gateways:
+    - key: 0DDE6994A5624AA5
+
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
