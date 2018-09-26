@@ -1,0 +1,18 @@
+# test mqtt sonoff switch
+  - platform: mqtt
+    name: "loft-light"
+    state_topic: "stat/sonoff-loft/POWER"
+    command_topic: "cmnd/sonoff-loft/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+
+  - platform: mqtt
+    name: "hall-light"
+    state_topic: "stat/sonoff-hall/POWER"
+    command_topic: "cmnd/sonoff-hall/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
