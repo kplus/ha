@@ -1,0 +1,64 @@
+  light.yeelight_rgb_34ce00847b4f:
+    friendly_name: "living room light"
+    homebridge_hidden: true
+    google_assistant: ture
+
+  binary_sensor.door_window_sensor_158d000121ba10:
+    friendly_name: 门窗感应器
+    hidden: true
+
+  switch.plug_158d0001881ddd:
+    friendly_name: 走廊灯
+#   friendly_name: 圣诞树
+    google_assistant: ture
+#   google_assistant_name: "christmas tree"
+    google_assistant_name: "corridor light"
+    hidden: true
+
+  binary_sensor.motion_sensor_158d00015aab3a:
+    friendly_name: 移动感应器
+    hidden: true
+
+  binary_sensor.switch_158d000183e596:
+    friendly_name: 小米插座
+    hidden: true
+    homebridge_hidden: true
+
+  light.gateway_light_34ce00838c96:
+    friendly_name: 小米网关灯
+    google_assistant: false
+
+  light.yeelight_rgb_34ce00847b4f:
+    friendly_name: "living room light"
+    homebridge_hidden: true
+    google_assistant: ture
+
+  sensor.humidity_158d00016c595c:
+    friendly_name: 湿度计
+    hidden: true
+
+  sensor.illumination_34ce00838c96:
+    friendly_name: 小米光线感应器
+    hidden: true
+
+  sensor.temperature_158d00016c595c:
+    friendly_name: 温度计
+    hidden: true
+
+  sun.sun:
+    friendly_name: 日照
+
+  sensor.yr_symbol:
+    friendly_name: 天气
+
+  media_player.tv:
+    google_assistant: ture
+    google_assistant_name: tv
+
+  media_player.lg:
+    hidden: true
+    homebridge_hidden: true
+
+  media_player.chromecast:
+    hidden: true
+    homebridge_hidden: true
