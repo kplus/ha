@@ -16,3 +16,48 @@
     payload_on: "ON"
     payload_off: "OFF"
     retain: true
+
+  - platform: mqtt
+    name: "living-room-light"
+    state_topic: "stat/sonoff-living/POWER"
+    command_topic: "cmnd/sonoff-living/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+
+  - platform: mqtt
+    name: "kitchen-light"
+    state_topic: "stat/sonoff-kitchen/POWER"
+    command_topic: "cmnd/sonoff-kitchen/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+
+  - platform: mqtt
+    name: "play-room-light"
+    state_topic: "stat/sonoff-play/POWER"
+    command_topic: "cmnd/sonoff-play/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+
+  - platform: mqtt
+    name: "dining-room-light"
+    state_topic: "stat/sonoff-dining/POWER"
+    command_topic: "cmnd/sonoff-dining/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+
+  - platform: mqtt
+    name: "toilet-light"
+    state_topic: "stat/sonoff-toilet/POWER"
+    command_topic: "cmnd/sonoff-toilet/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
