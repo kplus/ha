@@ -20,3 +20,5 @@
     state_topic: "tele/sonoff-loft/SENSOR"
     value_template: "{{ value_json['AM2301-14'].Humidity }}"
 
+# Weather prediction
+  - platform: yr
