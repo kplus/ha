@@ -1,1 +1,226 @@
-[]
+- alias: Turn on Living light when dark and there is person
+  hide_entity: True
+  initial_state: 'on'
+  trigger: 
+    platform: state 
+    entity_id: binary_sensor.playroomrip
+    from: 'off'
+    to: 'on' 
+  condition:
+    condition: and
+    conditions:
+        # only active between 1 hour after sunset and 1 hour before sunrise
+      - condition: or
+        conditions:
+          - condition: sun
+            after: sunset
+            after_offset: "-1:00:00"
+          - condition: sun
+            before: sunrise
+            before_offset: "1:00:00"
+        # when LED is off or less than 20 in brightness
+      - condition: state
+        entity_id: light.playroomlight
+        state: "off"
+  action: 
+    service: light.turn_on 
+    entity_id: light.playroomlight
+    # we should not enable voice for this, otherwise google home will always
+    # be active, so LED will never turn off after 1 mins
+
+- alias: Quick turn off Playroom light
+  initial_state: 'on'
+  hide_entity: false
+  trigger: 
+    platform: state 
+    entity_id: binary_sensor.playroomrip
+    from: 'on'
+    to: 'off'
+    for:
+      seconds: 15
+  condition:
+      # only when LED was on
+    - condition: state
+      entity_id: light.playroomlight
+      state: "on"
+#    condition: and
+#    conditions:
+#        # only when LED was on
+#      - condition: state
+#        entity_id: light.playroomlight
+#        state: "on"
+#        # last move detectd longer than 1 mins
+#      - condition: template
+#        value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.playroomrip.last_changed)) > 30 }}'
+  action: 
+    service: light.turn_off
+    entity_id: light.playroomlight
+#
+#- alias: Not do quick turn off if light has on for 3 mins
+#  hide_entity: True
+#  initial_state: 'on'
+#  trigger:
+#    platform: state
+#    entity_id: light.yeelight_rgb_34ce00847b4f
+#    to: 'on'
+#    for:
+#      minutes: 3
+#  action:
+#    service: automation.turn_off
+#    entity_id: automation.quick_turn_off_living_light 
+#
+#- alias: Dim living room if idle for 5 mins
+#  initial_state: 'on'
+#  hide_entity: True
+#  trigger: 
+#    platform: state 
+#    entity_id: binary_sensor.motion_sensor_158d00015aab3a
+#    from: 'on'
+#    to: 'off'
+#    for:
+#      hours: 0
+#      minutes: 5
+#      seconds: 0 
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: state
+#        entity_id: light.yeelight_rgb_34ce00847b4f
+#        state: "on"
+#      - condition: template
+#        value_template: '{{states.light.yeelight_rgb_34ce00847b4f.attributes.brightness > 20}}'
+#  action: 
+#    - service: light.turn_on
+#      entity_id: light.yeelight_rgb_34ce00847b4f
+#      data:
+#        brightness: 10
+#    - service: tts.google_say
+#      entity_id: media_player.gougou
+#      data:
+#        message: '长时间无人活动，1分钟后关闭客厅所有设备'
+#
+#- alias: Turn off everything in living room if idle for 6 mins
+#  initial_state: 'on'
+#  hide_entity: True
+#  trigger: 
+#    - platform: state 
+#      entity_id: binary_sensor.motion_sensor_158d00015aab3a
+#      from: 'on'
+#      to: 'off'
+#      for:
+#        hours: 0
+#        minutes: 6
+#        seconds: 0
+#    - platform: state 
+#      entity_id: binary_sensor.motion_sensor_158d00015aab3a
+#      from: 'on'
+#      to: 'off'
+#      for:
+#        hours: 0
+#        minutes: 15
+#        seconds: 0
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: state
+#        entity_id: light.yeelight_rgb_34ce00847b4f
+#        state: "on"
+#      - condition: template
+#        value_template: '{{states.light.yeelight_rgb_34ce00847b4f.attributes.brightness < 20}}'
+#  action: 
+#    - service: light.turn_off
+#      entity_id: light.yeelight_rgb_34ce00847b4f
+#    - service: media_player.turn_off
+#      entity_id: media_player.gougou
+#    - service: media_player.turn_off
+#      entity_id: media_player.tv
+#
+#- alias: Reset automation when light is off
+#  initial_state: 'on'
+#  hide_entity: True
+#  trigger:
+#    - platform: state
+#      entity_id: light.yeelight_rgb_34ce00847b4f
+#      from: 'on'
+#      to: 'off'
+#  action:
+#    - service: automation.turn_on
+#      entity_id: automation.quick_turn_off_living_light
+#
+#- alias: humidity too high
+#  initial_state: 'on'
+#  hide_entity: True
+#  trigger:
+#    platform: numeric_state
+#    entity_id: sensor.humidity_158d00016c595c
+#    above: 80
+#    for:
+#      minutes: 3
+#  condition:
+#    - condition: state
+#      entity_id: binary_sensor.door_window_sensor_158d000121ba10
+#      state: "off"
+#  action: 
+#    service: notify.general_notice
+#    data:
+#      title: humidity too high
+#      message: "请开窗透气"
+#      target: device/Terry
+#
+#- alias: humidity not high
+#  initial_state: 'on'
+#  hide_entity: True
+#  trigger:
+#    platform: numeric_state
+#    entity_id: sensor.humidity_158d00016c595c
+#    below: 70
+#    for:
+#      minutes: 3
+#  condition:
+#    - condition: state
+#      entity_id: binary_sensor.door_window_sensor_158d000121ba10
+#      state: "on"
+#  action: 
+#    service: notify.general_notice
+#    data:
+#      title: humidity not high
+#      message: "可以关窗了"
+#      target: device/Terry
+#
+# - alias: Recovery if xiaomi is not response for more than 20 minutes.
+#   initial_state: 'on'
+#   hide_entity: True
+#   trigger: 
+#     platform: time
+#     minutes: '/12'
+#   condition:
+#     condition: and
+#     conditions:
+# # motion sensor
+#       - condition: template
+#         value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.motion_sensor_158d00015aab3a.last_updated)) > 1300 }}'
+# # windows/door sensor
+#       - condition: template
+#         value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.door_window_sensor_158d000121ba10.last_updated)) > 1300 }}' 
+# # humidity sensor
+#       - condition: template
+#         value_template: '{{ (as_timestamp(now())-as_timestamp(states.sensor.humidity_158d00016c595c.last_updated)) > 1300 }}' 
+# # xiaomi illumination sensor
+#       - condition: template
+#         value_template: '{{ (as_timestamp(now())-as_timestamp(states.sensor.illumination_34ce00838c96.last_updated)) > 1300 }}' 
+# # temperature sensor
+#       - condition: template
+#         value_template: '{{ (as_timestamp(now())-as_timestamp(states.sensor.temperature_158d00016c595c.last_updated)) > 1300 }}' 
+#   action: 
+#     service: shell_command.recover_ha
+
+#- alias: test notification
+#  initial_state: 'on'
+#  hide_entity: True
+#  trigger: 
+#  action: 
+#    service: notify.general_notice
+#    data:
+#      title: test notice
+#      message: something happens
+#      target: device/Terry

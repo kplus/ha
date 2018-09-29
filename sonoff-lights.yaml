@@ -37,7 +37,7 @@
 
   - platform: mqtt
     name: "play-room-light"
-    state_topic: "stat/sonoff-play/POWER"
+    state_topic: "stat/sonoff-play/POWER1"
     command_topic: "cmnd/sonoff-play/POWER"
     qos: 1
     payload_on: "ON"

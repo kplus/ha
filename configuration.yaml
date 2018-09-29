@@ -92,6 +92,8 @@ mqtt:
 light: !include sonoff-lights.yaml
 # sonoff sensors
 sensor: !include sonoff-sensors.yaml
+# sonoff + SR501 RIP
+binary_sensor: !include sonoff-rip.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
