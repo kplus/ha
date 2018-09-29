@@ -10,7 +10,7 @@
 
   - platform: mqtt
     name: "hall-light"
-    state_topic: "stat/sonoff-hall/POWER"
+    state_topic: "stat/sonoff-hall/POWER1"
     command_topic: "cmnd/sonoff-hall/POWER"
     qos: 1
     payload_on: "ON"
@@ -19,7 +19,7 @@
 
   - platform: mqtt
     name: "living-room-light"
-    state_topic: "stat/sonoff-living/POWER"
+    state_topic: "stat/sonoff-living/POWER1"
     command_topic: "cmnd/sonoff-living/POWER"
     qos: 1
     payload_on: "ON"

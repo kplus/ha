@@ -88,6 +88,19 @@ mqtt:
   username: ha
   password: smarthome
 
+homekit:
+  filter:
+    include_domains:
+      - light
+      - sensor
+  ip_address: '192.168.1.7'
+
+logger:
+  default: warning
+  logs:
+    homeassistant.components.homekit: debug
+    pyhap: debug
+
 # sonoff lights
 light: !include sonoff-lights.yaml
 # sonoff sensors

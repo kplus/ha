@@ -1,4 +1,4 @@
-  light.yeelight_rgb_34ce00847b4f:
+  light.living_room_light:
     friendly_name: "living room light"
     homebridge_hidden: true
     google_assistant: ture
