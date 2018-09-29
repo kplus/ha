@@ -28,7 +28,7 @@
 
   - platform: mqtt
     name: "kitchen-light"
-    state_topic: "stat/sonoff-kitchen/POWER"
+    state_topic: "stat/sonoff-kitchen/POWER1"
     command_topic: "cmnd/sonoff-kitchen/POWER"
     qos: 1
     payload_on: "ON"
@@ -46,7 +46,7 @@
 
   - platform: mqtt
     name: "dining-room-light"
-    state_topic: "stat/sonoff-dining/POWER"
+    state_topic: "stat/sonoff-dining/POWER1"
     command_topic: "cmnd/sonoff-dining/POWER"
     qos: 1
     payload_on: "ON"
@@ -55,7 +55,7 @@
 
   - platform: mqtt
     name: "toilet-light"
-    state_topic: "stat/sonoff-toilet/POWER"
+    state_topic: "stat/sonoff-toilet/POWER1"
     command_topic: "cmnd/sonoff-toilet/POWER"
     qos: 1
     payload_on: "ON"
