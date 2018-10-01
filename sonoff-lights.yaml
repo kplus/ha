@@ -1,6 +1,6 @@
 # test mqtt sonoff switch
   - platform: mqtt
-    name: "loft-light"
+    name: "loft"
     state_topic: "stat/sonoff-loft/POWER"
     command_topic: "cmnd/sonoff-loft/POWER"
     qos: 1
@@ -9,7 +9,7 @@
     retain: true
 
   - platform: mqtt
-    name: "hall-light"
+    name: "hall"
     state_topic: "stat/sonoff-hall/POWER1"
     command_topic: "cmnd/sonoff-hall/POWER"
     qos: 1
@@ -18,7 +18,7 @@
     retain: true
 
   - platform: mqtt
-    name: "living-room-light"
+    name: "living-room"
     state_topic: "stat/sonoff-living/POWER1"
     command_topic: "cmnd/sonoff-living/POWER"
     qos: 1
@@ -27,7 +27,7 @@
     retain: true
 
   - platform: mqtt
-    name: "kitchen-light"
+    name: "kitchen"
     state_topic: "stat/sonoff-kitchen/POWER1"
     command_topic: "cmnd/sonoff-kitchen/POWER"
     qos: 1
@@ -36,7 +36,7 @@
     retain: true
 
   - platform: mqtt
-    name: "play-room-light"
+    name: "play-room"
     state_topic: "stat/sonoff-play/POWER1"
     command_topic: "cmnd/sonoff-play/POWER"
     qos: 1
@@ -45,7 +45,7 @@
     retain: true
 
   - platform: mqtt
-    name: "dining-room-light"
+    name: "dining"
     state_topic: "stat/sonoff-dining/POWER1"
     command_topic: "cmnd/sonoff-dining/POWER"
     qos: 1
@@ -54,7 +54,7 @@
     retain: true
 
   - platform: mqtt
-    name: "toilet-light"
+    name: "toilet"
     state_topic: "stat/sonoff-toilet/POWER1"
     command_topic: "cmnd/sonoff-toilet/POWER"
     qos: 1
