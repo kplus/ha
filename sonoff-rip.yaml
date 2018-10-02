@@ -1,27 +1,27 @@
 # test mqtt sonoff switch
 #  - platform: mqtt
-#    name: "loft-RIP"
+#    name: "loft"
 #    state_topic: "stat/sonoff-loft/POWER2"
 #    qos: 1
 #    payload_on: "ON"
 #    payload_off: "OFF"
 #
 #  - platform: mqtt
-#    name: "hall-RIP"
+#    name: "hall"
 #    state_topic: "stat/sonoff-hall/POWER2"
 #    qos: 1
 #    payload_on: "ON"
 #    payload_off: "OFF"
 #
 #  - platform: mqtt
-#    name: "living-room-RIP"
+#    name: "living-room"
 #    state_topic: "stat/sonoff-living/POWER2"
 #    qos: 1
 #    payload_on: "ON"
 #    payload_off: "OFF"
 #
   - platform: mqtt
-    name: "kitchen-RIP"
+    name: "kitchen"
     state_topic: "stat/sonoff-kitchen/POWER2"
     qos: 1
     payload_on: "ON"
@@ -29,7 +29,7 @@
     device_class: motion
 
   - platform: mqtt
-    name: "play-room-RIP"
+    name: "play-room"
     state_topic: "stat/sonoff-play/POWER2"
     qos: 1
     payload_on: "ON"
@@ -37,7 +37,7 @@
     device_class: motion
 
   - platform: mqtt
-    name: "dining-RIP"
+    name: "dining"
     state_topic: "stat/sonoff-dining/POWER2"
     qos: 1
     payload_on: "ON"
@@ -45,7 +45,7 @@
     device_class: motion
 
   - platform: mqtt
-    name: "toilet-RIP"
+    name: "toilet"
     state_topic: "stat/sonoff-toilet/POWER2"
     qos: 1
     payload_on: "ON"
