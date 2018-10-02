@@ -1,34 +1,67 @@
 # Timer for slow turn off lights, 60s timeout
-- alias: Slow Off
-  hide_entity: false
+- alias: Slow Off lights
+  hide_entity: true
   initial_state: 'on'
   trigger:
-  - platform: time
-    seconds: '/60'
+    - platform: state
+      entity_id:
+        - binary_sensor.kitchen
+        - binary_sensor.toilet
+      to: 'off'
+      # 89s
+      for: '00:01:29'
+    - platform: state
+      entity_id:
+        - binary_sensor.playroom
+      to: 'off'
+      for: '00:00:53'
+    - platform: state
+      entity_id:
+        - binary_sensor.dining
+      to: 'off'
+      for: '00:00:43'
+    - platform: state
+      entity_id:
+        - binary_sensor.hall
+      to: 'off'
+      for: '00:00:19'
+      # saftguard for all sensors
+    - platform: state
+      entity_id:
+        - binary_sensor.hall
+        - binary_sensor.kitchen
+        - binary_sensor.toilet
+        - binary_sensor.dining
+        - binary_sensor.playroom
+      to: 'off'
+      # 307s
+      for: '00:05:07'
   condition:
-    condition: and
-    conditions:
-        # only when LED was on
-      - condition: state
-        entity_id: light.playroom
-        state: "on"
-        # last move detectd longer than 1 mins
-      - condition: template
-        value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.playroomrip.last_changed)) > 60 }}'
+    condition: template
+    value_template: '{{ is_state("light." + trigger.entity_id.split(".")[1], "on") }}'
   action:
   - service: light.turn_off
-    entity_id: light.playroom
+    data_template:
+      entity_id: '{{"light." + trigger.entity_id.split(".")[1]}}'
 
-- alias: Quick on/off playroom light
-  hide_entity: false
+- alias: Turn on lights
+  hide_entity: true
   initial_state: 'on'
-  trigger: 
-    platform: state 
-    entity_id: binary_sensor.playroomrip
-    to: 'on' 
+  trigger:
+    - platform: state 
+      entity_id:
+        - binary_sensor.playroom
+        - binary_sensor.kitchen
+        - binary_sensor.hall
+        - binary_sensor.toilet
+        - binary_sensor.dining
+      to: 'on' 
   condition:
     condition: and
     conditions:
+        # when LED is off
+      - condition: template
+        value_template: '{{ is_state("light." + trigger.entity_id.split(".")[1], "off") }}'
         # only active between 1 hour after sunset and 1 hour before sunrise
       - condition: or
         conditions:
@@ -38,141 +71,119 @@
           - condition: sun
             before: sunrise
             before_offset: "1:00:00"
-        # when LED is off
-      - condition: state
-        entity_id: light.playroom
-        state: "off"
   action:
-  - service: light.turn_on
-    entity_id: light.playroom
-  - delay: '00:00:13'
-  - condition: template
-    value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.playroomrip.last_changed)) > 8 }}'
-  - service: light.turn_off
-    entity_id: light.playroom
+    - service: light.turn_on
+      data_template:
+        entity_id: '{{"light." + trigger.entity_id.split(".")[1]}}'
+    - service: automation.turn_on
+      data_template:
+        entity_id: '{{"automation.quick_off_" + trigger.entity_id.split(".")[1]}}'
 
-#- alias: Turn off everything in living room if idle for 6 mins
-#  initial_state: 'on'
-#  hide_entity: True
-#  trigger: 
-#    - platform: state 
-#      entity_id: binary_sensor.motion_sensor_158d00015aab3a
-#      from: 'on'
-#      to: 'off'
-#      for:
-#        hours: 0
-#        minutes: 6
-#        seconds: 0
-#    - platform: state 
-#      entity_id: binary_sensor.motion_sensor_158d00015aab3a
-#      from: 'on'
-#      to: 'off'
-#      for:
-#        hours: 0
-#        minutes: 15
-#        seconds: 0
-#  condition:
-#    condition: and
-#    conditions:
-#      - condition: state
-#        entity_id: light.yeelight_rgb_34ce00847b4f
-#        state: "on"
-#      - condition: template
-#        value_template: '{{states.light.yeelight_rgb_34ce00847b4f.attributes.brightness < 20}}'
-#  action: 
-#    - service: light.turn_off
-#      entity_id: light.yeelight_rgb_34ce00847b4f
-#    - service: media_player.turn_off
-#      entity_id: media_player.gougou
-#    - service: media_player.turn_off
-#      entity_id: media_player.tv
-#
-#- alias: Reset automation when light is off
-#  initial_state: 'on'
-#  hide_entity: True
-#  trigger:
-#    - platform: state
-#      entity_id: light.yeelight_rgb_34ce00847b4f
-#      from: 'on'
-#      to: 'off'
-#  action:
-#    - service: automation.turn_on
-#      entity_id: automation.quick_turn_off_living_light
-#
-#- alias: humidity too high
-#  initial_state: 'on'
-#  hide_entity: True
-#  trigger:
-#    platform: numeric_state
-#    entity_id: sensor.humidity_158d00016c595c
-#    above: 80
-#    for:
-#      minutes: 3
-#  condition:
-#    - condition: state
-#      entity_id: binary_sensor.door_window_sensor_158d000121ba10
-#      state: "off"
-#  action: 
-#    service: notify.general_notice
-#    data:
-#      title: humidity too high
-#      message: "请开窗透气"
-#      target: device/Terry
-#
-#- alias: humidity not high
-#  initial_state: 'on'
-#  hide_entity: True
-#  trigger:
-#    platform: numeric_state
-#    entity_id: sensor.humidity_158d00016c595c
-#    below: 70
-#    for:
-#      minutes: 3
-#  condition:
-#    - condition: state
-#      entity_id: binary_sensor.door_window_sensor_158d000121ba10
-#      state: "on"
-#  action: 
-#    service: notify.general_notice
-#    data:
-#      title: humidity not high
-#      message: "可以关窗了"
-#      target: device/Terry
-#
-# - alias: Recovery if xiaomi is not response for more than 20 minutes.
-#   initial_state: 'on'
-#   hide_entity: True
-#   trigger: 
-#     platform: time
-#     minutes: '/12'
-#   condition:
-#     condition: and
-#     conditions:
-# # motion sensor
-#       - condition: template
-#         value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.motion_sensor_158d00015aab3a.last_updated)) > 1300 }}'
-# # windows/door sensor
-#       - condition: template
-#         value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.door_window_sensor_158d000121ba10.last_updated)) > 1300 }}' 
-# # humidity sensor
-#       - condition: template
-#         value_template: '{{ (as_timestamp(now())-as_timestamp(states.sensor.humidity_158d00016c595c.last_updated)) > 1300 }}' 
-# # xiaomi illumination sensor
-#       - condition: template
-#         value_template: '{{ (as_timestamp(now())-as_timestamp(states.sensor.illumination_34ce00838c96.last_updated)) > 1300 }}' 
-# # temperature sensor
-#       - condition: template
-#         value_template: '{{ (as_timestamp(now())-as_timestamp(states.sensor.temperature_158d00016c595c.last_updated)) > 1300 }}' 
-#   action: 
-#     service: shell_command.recover_ha
 
-#- alias: test notification
-#  initial_state: 'on'
-#  hide_entity: True
-#  trigger: 
-#  action: 
-#    service: notify.general_notice
-#    data:
-#      title: test notice
-#      message: something happens
-#      target: device/Terry
+# quickly turn off lights functions need to be repeated for each light
+# as the services need to be turn off individually.
+
+- alias: Quick off playroom
+  hide_entity: true
+  initial_state: 'off'
+  trigger:
+    - platform: state
+      entity_id: light.playroom
+      to: 'off'
+  action:
+    - delay: '00:00:08'
+    - service: automation.turn_off
+      entity_id: automation.quick_off_playroom
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: light.playroom
+          state: "on"
+        - condition: template
+          value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.playroom.last_changed)) > 7 }}'
+    - service: light.turn_off
+      entity_id: light.playroom
+
+- alias: Quick off hall
+  hide_entity: true
+  initial_state: 'off'
+  trigger:
+    - platform: state
+      entity_id: light.hall
+      to: 'off'
+  action:
+    - delay: '00:00:08'
+    - service: automation.turn_off
+      entity_id: automation.quick_off_hall
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: light.hall
+          state: "on"
+        - condition: template
+          value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.hall.last_changed)) > 7 }}'
+    - service: light.turn_off
+      entity_id: light.hall
+
+- alias: Quick off kitchen
+  hide_entity: true
+  initial_state: 'off'
+  trigger:
+    - platform: state
+      entity_id: light.kitchen
+      to: 'off'
+  action:
+    - delay: '00:00:08'
+    - service: automation.turn_off
+      entity_id: automation.quick_off_kitchen
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: light.kitchen
+          state: "on"
+        - condition: template
+          value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.kitchen.last_changed)) > 7 }}'
+    - service: light.turn_off
+      entity_id: light.kitchen
+
+- alias: Quick off toilet
+  hide_entity: true
+  initial_state: 'off'
+  trigger:
+    - platform: state
+      entity_id: light.toilet
+      to: 'off'
+  action:
+    - delay: '00:00:08'
+    - service: automation.turn_off
+      entity_id: automation.quick_off_toilet
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: light.toilet
+          state: "on"
+        - condition: template
+          value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.toilet.last_changed)) > 7 }}'
+    - service: light.turn_off
+      entity_id: light.kitchen
+
+- alias: Quick off dining
+  hide_entity: true
+  initial_state: 'off'
+  trigger:
+    - platform: state
+      entity_id: light.dining
+      to: 'off'
+  action:
+    - delay: '00:00:08'
+    - service: automation.turn_off
+      entity_id: automation.quick_off_dining
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: light.dining
+          state: "on"
+        - condition: template
+          value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.dining.last_changed)) > 7 }}'
+    - service: light.turn_off
+      entity_id: light.dining
