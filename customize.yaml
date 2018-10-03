@@ -62,3 +62,18 @@
   media_player.chromecast:
     hidden: true
     homebridge_hidden: true
+
+  binary_sensor.hall:
+    hidden: true
+
+  binary_sensor.dining:
+    hidden: true
+
+  binary_sensor.kitchen:
+    hidden: true
+
+  binary_sensor.playroom:
+    hidden: true
+
+  binary_sensor.toilet:
+    hidden: true
