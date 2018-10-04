@@ -70,3 +70,12 @@
     payload_on: "ON"
     payload_off: "OFF"
     retain: true
+
+  - platform: mqtt
+    name: "landing"
+    state_topic: "stat/sonoff-landing/POWER1"
+    command_topic: "cmnd/sonoff-landing/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true

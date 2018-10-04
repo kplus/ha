@@ -5,7 +5,7 @@
   trigger:
     - platform: state
       entity_id:
-        - binary_sensor.kitchen
+              #        - binary_sensor.kitchen
         - binary_sensor.toilet
         - binary_sensor.bath
       to: 'off'
@@ -21,16 +21,11 @@
         - binary_sensor.dining
       to: 'off'
       for: '00:00:43'
-    - platform: state
-      entity_id:
-        - binary_sensor.hall
-      to: 'off'
-      for: '00:00:19'
       # saftguard for all sensors
     - platform: state
       entity_id:
         - binary_sensor.hall
-        - binary_sensor.kitchen
+          #        - binary_sensor.kitchen
         - binary_sensor.toilet
         - binary_sensor.dining
         - binary_sensor.playroom
@@ -54,7 +49,6 @@
       entity_id:
         - binary_sensor.playroom
         - binary_sensor.kitchen
-        - binary_sensor.hall
         - binary_sensor.toilet
         - binary_sensor.dining
         - binary_sensor.bath
@@ -106,27 +100,6 @@
           value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.playroom.last_changed)) > 7 }}'
     - service: light.turn_off
       entity_id: light.playroom
-
-- alias: Quick off hall
-  hide_entity: true
-  initial_state: 'off'
-  trigger:
-    - platform: state
-      entity_id: light.hall
-      to: 'off'
-  action:
-    - delay: '00:00:08'
-    - service: automation.turn_off
-      entity_id: automation.quick_off_hall
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: light.hall
-          state: "on"
-        - condition: template
-          value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.hall.last_changed)) > 7 }}'
-    - service: light.turn_off
-      entity_id: light.hall
 
 - alias: Quick off kitchen
   hide_entity: true
