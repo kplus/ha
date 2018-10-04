@@ -53,3 +53,11 @@
     payload_on: "ON"
     payload_off: "OFF"
     device_class: motion
+
+  - platform: mqtt
+    name: "bath"
+    state_topic: "stat/sonoff-bath/POWER2"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: motion

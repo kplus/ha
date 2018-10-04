@@ -7,6 +7,7 @@
       entity_id:
         - binary_sensor.kitchen
         - binary_sensor.toilet
+        - binary_sensor.bath
       to: 'off'
       # 89s
       for: '00:01:29'
@@ -33,6 +34,7 @@
         - binary_sensor.toilet
         - binary_sensor.dining
         - binary_sensor.playroom
+        - binary_sensor.bath
       to: 'off'
       # 307s
       for: '00:05:07'
@@ -55,6 +57,7 @@
         - binary_sensor.hall
         - binary_sensor.toilet
         - binary_sensor.dining
+        - binary_sensor.bath
       to: 'on' 
   condition:
     condition: and
@@ -187,3 +190,24 @@
           value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.dining.last_changed)) > 7 }}'
     - service: light.turn_off
       entity_id: light.dining
+
+- alias: Quick off bath
+  hide_entity: true
+  initial_state: 'off'
+  trigger:
+    - platform: state
+      entity_id: light.bath
+      to: 'off'
+  action:
+    - delay: '00:00:13'
+    - service: automation.turn_off
+      entity_id: automation.quick_off_bath
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: light.bath
+          state: "on"
+        - condition: template
+          value_template: '{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.bath.last_changed)) > 7 }}'
+    - service: light.turn_off
+      entity_id: light.kitchen
