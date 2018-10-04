@@ -77,3 +77,6 @@
 
   binary_sensor.toilet:
     hidden: true
+
+  binary_sensor.bath:
+    hidden: true
