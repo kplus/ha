@@ -5,6 +5,16 @@ default_config:
 # Text to speech
 tts:
   - platform: google_translate
+    language: 'zh-cn'
+    cache: true
+    cache_dir: /config/tts
+    time_memory: 57600
+    base_url: http://192.168.1.7:8123
+
+media_player:
+  - platform: lg_netcast
+    access_token: '214850'
+    host: 10.0.0.227
 
 group: !include groups.yaml
 automation: !include automations.yaml

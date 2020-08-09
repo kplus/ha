@@ -1,0 +1,358 @@
+{
+    "data": {
+        "deleted_devices": [],
+        "devices": [
+            {
+                "area_id": "9d103dfeba3843a4b700c4fef49e8eff",
+                "config_entries": [
+                    "fc3e25e6a1774303a152b64654cf67f0"
+                ],
+                "connections": [],
+                "entry_type": null,
+                "id": "818c73f739af4987af640d9e57a147cd",
+                "identifiers": [
+                    [
+                        "xiaomi_aqara",
+                        "34:ce:00:83:8c:96"
+                    ]
+                ],
+                "manufacturer": "Xiaomi Aqara",
+                "model": "gateway",
+                "name": "Xiaomi Aqara Gateway",
+                "name_by_user": null,
+                "sw_version": "1.1.2",
+                "via_device_id": null
+            },
+            {
+                "area_id": null,
+                "config_entries": [
+                    "fc3e25e6a1774303a152b64654cf67f0"
+                ],
+                "connections": [
+                    [
+                        "zigbee",
+                        "158d000121ba10"
+                    ]
+                ],
+                "entry_type": null,
+                "id": "e3805d2a424143b8bd727ec1dd282160",
+                "identifiers": [
+                    [
+                        "xiaomi_aqara",
+                        "158d000121ba10"
+                    ]
+                ],
+                "manufacturer": "Xiaomi Aqara",
+                "model": "magnet",
+                "name": "magnet_158d000121ba10",
+                "name_by_user": null,
+                "sw_version": "1.1.2",
+                "via_device_id": "818c73f739af4987af640d9e57a147cd"
+            },
+            {
+                "area_id": null,
+                "config_entries": [
+                    "fc3e25e6a1774303a152b64654cf67f0"
+                ],
+                "connections": [
+                    [
+                        "zigbee",
+                        "158d000183e596"
+                    ]
+                ],
+                "entry_type": null,
+                "id": "5e9fca6691404558a4b5c3d4a24049ae",
+                "identifiers": [
+                    [
+                        "xiaomi_aqara",
+                        "158d000183e596"
+                    ]
+                ],
+                "manufacturer": "Xiaomi Aqara",
+                "model": "switch",
+                "name": "switch_158d000183e596",
+                "name_by_user": null,
+                "sw_version": "1.1.2",
+                "via_device_id": "818c73f739af4987af640d9e57a147cd"
+            },
+            {
+                "area_id": null,
+                "config_entries": [
+                    "fc3e25e6a1774303a152b64654cf67f0"
+                ],
+                "connections": [
+                    [
+                        "zigbee",
+                        "158d00015aab3a"
+                    ]
+                ],
+                "entry_type": null,
+                "id": "cba4169d7c3449f0bf8cda8d47591e55",
+                "identifiers": [
+                    [
+                        "xiaomi_aqara",
+                        "158d00015aab3a"
+                    ]
+                ],
+                "manufacturer": "Xiaomi Aqara",
+                "model": "motion",
+                "name": "motion_158d00015aab3a",
+                "name_by_user": null,
+                "sw_version": "1.1.2",
+                "via_device_id": "818c73f739af4987af640d9e57a147cd"
+            },
+            {
+                "area_id": null,
+                "config_entries": [
+                    "fc3e25e6a1774303a152b64654cf67f0"
+                ],
+                "connections": [
+                    [
+                        "zigbee",
+                        "158d00021621d5"
+                    ]
+                ],
+                "entry_type": null,
+                "id": "0613c035b61845c9bc2bfc65cfe34aef",
+                "identifiers": [
+                    [
+                        "xiaomi_aqara",
+                        "158d00021621d5"
+                    ]
+                ],
+                "manufacturer": "Xiaomi Aqara",
+                "model": "motion",
+                "name": "motion_158d00021621d5",
+                "name_by_user": null,
+                "sw_version": "1.1.2",
+                "via_device_id": "818c73f739af4987af640d9e57a147cd"
+            },
+            {
+                "area_id": null,
+                "config_entries": [
+                    "fc3e25e6a1774303a152b64654cf67f0"
+                ],
+                "connections": [
+                    [
+                        "zigbee",
+                        "158d000224b01c"
+                    ]
+                ],
+                "entry_type": null,
+                "id": "28fb976e74b947cbb2385f16117defe8",
+                "identifiers": [
+                    [
+                        "xiaomi_aqara",
+                        "158d000224b01c"
+                    ]
+                ],
+                "manufacturer": "Xiaomi Aqara",
+                "model": "magnet",
+                "name": "magnet_158d000224b01c",
+                "name_by_user": null,
+                "sw_version": "1.1.2",
+                "via_device_id": "818c73f739af4987af640d9e57a147cd"
+            },
+            {
+                "area_id": null,
+                "config_entries": [
+                    "fc3e25e6a1774303a152b64654cf67f0"
+                ],
+                "connections": [
+                    [
+                        "zigbee",
+                        "158d00022bf88d"
+                    ]
+                ],
+                "entry_type": null,
+                "id": "b1ad7f0250b949159990fe5ffe9015a1",
+                "identifiers": [
+                    [
+                        "xiaomi_aqara",
+                        "158d00022bf88d"
+                    ]
+                ],
+                "manufacturer": "Xiaomi Aqara",
+                "model": "magnet",
+                "name": "magnet_158d00022bf88d",
+                "name_by_user": null,
+                "sw_version": "1.1.2",
+                "via_device_id": "818c73f739af4987af640d9e57a147cd"
+            },
+            {
+                "area_id": null,
+                "config_entries": [
+                    "fc3e25e6a1774303a152b64654cf67f0"
+                ],
+                "connections": [
+                    [
+                        "zigbee",
+                        "158d000228601e"
+                    ]
+                ],
+                "entry_type": null,
+                "id": "8075261aa18843a1a586aaea9036dc99",
+                "identifiers": [
+                    [
+                        "xiaomi_aqara",
+                        "158d000228601e"
+                    ]
+                ],
+                "manufacturer": "Xiaomi Aqara",
+                "model": "magnet",
+                "name": "magnet_158d000228601e",
+                "name_by_user": null,
+                "sw_version": "1.1.2",
+                "via_device_id": "818c73f739af4987af640d9e57a147cd"
+            },
+            {
+                "area_id": null,
+                "config_entries": [
+                    "fc3e25e6a1774303a152b64654cf67f0"
+                ],
+                "connections": [
+                    [
+                        "zigbee",
+                        "158d00022c3a10"
+                    ]
+                ],
+                "entry_type": null,
+                "id": "a8cd010628c745b3aaab74b5032fcb42",
+                "identifiers": [
+                    [
+                        "xiaomi_aqara",
+                        "158d00022c3a10"
+                    ]
+                ],
+                "manufacturer": "Xiaomi Aqara",
+                "model": "magnet",
+                "name": "magnet_158d00022c3a10",
+                "name_by_user": null,
+                "sw_version": "1.1.2",
+                "via_device_id": "818c73f739af4987af640d9e57a147cd"
+            },
+            {
+                "area_id": null,
+                "config_entries": [
+                    "fc3e25e6a1774303a152b64654cf67f0"
+                ],
+                "connections": [
+                    [
+                        "zigbee",
+                        "158d000228600a"
+                    ]
+                ],
+                "entry_type": null,
+                "id": "7385b78234f449d7ac36f5c2a8491ee9",
+                "identifiers": [
+                    [
+                        "xiaomi_aqara",
+                        "158d000228600a"
+                    ]
+                ],
+                "manufacturer": "Xiaomi Aqara",
+                "model": "magnet",
+                "name": "magnet_158d000228600a",
+                "name_by_user": null,
+                "sw_version": "1.1.2",
+                "via_device_id": "818c73f739af4987af640d9e57a147cd"
+            },
+            {
+                "area_id": null,
+                "config_entries": [
+                    "fc3e25e6a1774303a152b64654cf67f0"
+                ],
+                "connections": [
+                    [
+                        "zigbee",
+                        "158d0001f37855"
+                    ]
+                ],
+                "entry_type": null,
+                "id": "2dd76e864e654733b4fcda0b9b3f8740",
+                "identifiers": [
+                    [
+                        "xiaomi_aqara",
+                        "158d0001f37855"
+                    ]
+                ],
+                "manufacturer": "Xiaomi Aqara",
+                "model": "switch",
+                "name": "switch_158d0001f37855",
+                "name_by_user": null,
+                "sw_version": "1.1.2",
+                "via_device_id": "818c73f739af4987af640d9e57a147cd"
+            },
+            {
+                "area_id": null,
+                "config_entries": [
+                    "fc3e25e6a1774303a152b64654cf67f0"
+                ],
+                "connections": [
+                    [
+                        "zigbee",
+                        "158d0001881ddd"
+                    ]
+                ],
+                "entry_type": null,
+                "id": "13a088c90c104d6ab6631e725274e3b1",
+                "identifiers": [
+                    [
+                        "xiaomi_aqara",
+                        "158d0001881ddd"
+                    ]
+                ],
+                "manufacturer": "Xiaomi Aqara",
+                "model": "plug",
+                "name": "plug_158d0001881ddd",
+                "name_by_user": null,
+                "sw_version": "1.1.2",
+                "via_device_id": "818c73f739af4987af640d9e57a147cd"
+            },
+            {
+                "area_id": "9d103dfeba3843a4b700c4fef49e8eff",
+                "config_entries": [
+                    "1e1d758c8aa64c22ab484f24ac7a4182"
+                ],
+                "connections": [],
+                "entry_type": null,
+                "id": "3e03dd32e73c4443901eba001ef4f369",
+                "identifiers": [
+                    [
+                        "cast",
+                        "857df127bb8827ba474ad9b437881cd7"
+                    ]
+                ],
+                "manufacturer": "Google Inc.",
+                "model": "Google Home Mini",
+                "name": "Family room speaker",
+                "name_by_user": null,
+                "sw_version": null,
+                "via_device_id": null
+            },
+            {
+                "area_id": "9d103dfeba3843a4b700c4fef49e8eff",
+                "config_entries": [
+                    "1e1d758c8aa64c22ab484f24ac7a4182"
+                ],
+                "connections": [],
+                "entry_type": null,
+                "id": "e3e042e54e3042f88e671a3f5da5d12b",
+                "identifiers": [
+                    [
+                        "cast",
+                        "d74a40ef40f33ac4753ea8d7c15ac818"
+                    ]
+                ],
+                "manufacturer": "Google Inc.",
+                "model": "Chromecast",
+                "name": "Living Room Casting",
+                "name_by_user": null,
+                "sw_version": null,
+                "via_device_id": null
+            }
+        ]
+    },
+    "key": "core.device_registry",
+    "version": 1
+}
