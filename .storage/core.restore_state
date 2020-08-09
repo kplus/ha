@@ -1,0 +1,26 @@
+{
+    "data": [
+        {
+            "last_seen": "2020-08-09T08:46:33.305960+00:00",
+            "state": {
+                "attributes": {
+                    "editable": true,
+                    "friendly_name": "Terry",
+                    "id": "terry",
+                    "user_id": "d42b8ccabecb4c9490ef8b17e8cb4031"
+                },
+                "context": {
+                    "id": "1a615815d9cb11eab2a1a33be852b25d",
+                    "parent_id": null,
+                    "user_id": null
+                },
+                "entity_id": "person.terry",
+                "last_changed": "2020-08-08T23:01:33.239847+00:00",
+                "last_updated": "2020-08-08T23:01:33.239847+00:00",
+                "state": "unknown"
+            }
+        }
+    ],
+    "key": "core.restore_state",
+    "version": 1
+}
