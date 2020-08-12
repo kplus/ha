@@ -2,6 +2,9 @@ title: Home
 views:
 # first page
   - cards:
+      - type:  weather-forecast
+        entity: weather.perry
+        secondary_info_attribute: humidity
       - type: entity-filter
         entities:
           - light.loft
@@ -56,15 +59,10 @@ views:
     badges:
       - device_tracker.terrys_iphone_2
       - device_tracker.cens_iphone_2
-      - sensor.weather_wind_speed
-      - sensor.weather_temperature
-      - sensor.weather_humidity
-      - sensor.weather_symbol
       - sensor.temp_xiaoxi
       - sensor.humidity_xiaoxi
       - sensor.temp_xiaoxin
       - sensor.humidity_xiaoxin
-#      - sun.sun
     path: default_view
     title: Home
 # second page
