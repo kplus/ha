@@ -1,0 +1,81 @@
+  - platform: mqtt
+    name: "living_room"
+    state_topic: "stat/sonoff-living/POWER2"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: motion
+
+  - platform: mqtt
+    name: "hall"
+    state_topic: "stat/sonoff-hall/POWER2"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: motion
+
+  - platform: mqtt
+    name: "hall2"
+    state_topic: "stat/sonoff-hall2/POWER2"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: motion
+
+  - platform: mqtt
+    name: "kitchen_sonoff"
+    state_topic: "stat/sonoff-kitchen/POWER2"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: motion
+
+  - platform: mqtt
+    name: "playroom"
+    state_topic: "stat/sonoff-play/POWER2"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: motion
+
+  - platform: mqtt
+    name: "dining"
+    state_topic: "stat/sonoff-dining/POWER2"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: motion
+
+  - platform: mqtt
+    name: "toilet"
+    state_topic: "stat/sonoff-toilet/POWER2"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: motion
+
+  - platform: mqtt
+    name: "bath"
+    state_topic: "stat/sonoff-bath/POWER2"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: motion
+
+  - platform: mqtt
+    name: "landing"
+    state_topic: "stat/sonoff-landing/POWER2"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: motion
+
+# combine 2 kitchen sensor into 1
+  - platform: template
+    sensors:
+      kitchen:
+        friendly_name: "kitchen"
+        device_class: motion
+        value_template: >-
+          {{ is_state('binary_sensor.kitchen_sonoff', 'on')
+             or is_state('binary_sensor.kitchen_xiaomi', 'on') }}

@@ -60,6 +60,13 @@ camera:
 
 ## booleans to be used
 input_boolean: !include input_boolean.yaml
+## sonoff lights
+light: !include sonoff/sonoff-lights.yaml
+## sonoff sensors
+sensor: !include sonoff/sonoff-sensors.yaml
+## sonoff + SR501 PIR
+binary_sensor: !include sonoff/sonoff-pir.yaml
+
 
 group: !include groups.yaml
 automation: !include automations.yaml
