@@ -16,6 +16,11 @@ media_player:
     access_token: '214850'
     host: 10.0.0.227
 
+yeelight:
+  devices:
+    192.168.1.225:
+      name: Bedroom
+
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg
 
@@ -32,6 +37,9 @@ camera:
     input: -rtsp_transport tcp -i rtsp://admin:82111e&109A@192.168.1.206:554/Streaming/Channels/102
     extra_arguments: -q:v 2 -s 900x600
     name: roof
+
+## booleans to be used
+input_boolean: !include input_boolean.yaml
 
 group: !include groups.yaml
 automation: !include automations.yaml
