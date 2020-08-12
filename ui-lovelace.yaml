@@ -1,0 +1,95 @@
+title: Home
+views:
+# first page
+  - cards:
+      - type: entity-filter
+        entities:
+          - light.loft
+          - binary_sensor.door_window_sensor_158d000121ba10
+          - binary_sensor.door_window_sensor_158d000224b01c
+          - binary_sensor.door_window_sensor_158d000228601e
+#          - binary_sensor.door_window_sensor_158d00022bf88d
+          - binary_sensor.door_window_sensor_158d00022c3a10
+        state_filter:
+          - 'on'
+        card:
+          title: 注意
+          show_header_toggle: false
+      - type: gauge
+        min: 0
+        max: 100
+        severity:
+          green: 80
+          yellow: 50
+          red: 0
+        theme: default
+        entity: sensor.speedtest_download
+        name: 网速
+      - type: iframe
+        url: https://embed.windy.com/
+        aspect_ratio: 50%
+      - type: entities
+        entities:
+          - light.kitchen
+          - light.bath
+          - light.playroom
+          - light.landing
+          - light.hall
+          - light.dining
+          - light.living_room
+          - light.toilet
+          - light.loft
+          - light.gateway_light_34ce00838c96
+          - light.bedroom
+        title: 灯光
+      - type: entities
+        entities:
+          - input_boolean.pir_hall
+          - input_boolean.pir_living_room
+          - input_boolean.pir_playroom
+          - input_boolean.pir_kitchen
+          - input_boolean.pir_dining
+          - input_boolean.pir_toilet
+          - input_boolean.pir_bath
+          - input_boolean.pir_landing
+        title: 移动监测
+    badges:
+      - device_tracker.terrys_iphone_2
+      - device_tracker.cens_iphone_2
+      - sensor.weather_wind_speed
+      - sensor.weather_temperature
+      - sensor.weather_humidity
+      - sensor.weather_symbol
+      - sensor.temp_xiaoxi
+      - sensor.humidity_xiaoxi
+      - sensor.temp_xiaoxin
+      - sensor.humidity_xiaoxin
+#      - sun.sun
+    path: default_view
+    title: Home
+# second page
+  - cards:
+      - type: picture-entity
+        entity: camera.front
+        camera_view: live
+      - type: picture-entity
+        entity: camera.garden
+        camera_view: live
+      - type: picture-entity
+        entity: camera.roof
+        camera_view: live
+    badges: []
+    title: CCTV
+# third page
+  - cards:
+      - type: media-control
+        entity: media_player.lg_tv_remote
+      - type: media-control
+        entity: media_player.chromecast3880
+      - type: media-control
+        entity: media_player.kitchen_speaker
+      - type: media-control
+        entity: media_player.living_room_speaker
+    badges: []
+    title: MEDIA
+
