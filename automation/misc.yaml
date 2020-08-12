@@ -1,0 +1,159 @@
+###############################################################
+#
+#
+# Prepare for Greetings
+#
+#
+##############################################################
+#- alias: Prepare Greetings
+#  hide_entity: true
+#  initial_state: 'on'
+#  trigger:
+#    - platform: state
+#      entity_id:
+#        - binary_sensor.door_window_sensor_158d000224b01c
+#      to: 'off'
+#  action:
+#    - service: automation.turn_on
+#      entity_id: automation.welcome_greetings
+#    - delay: '00:00:15'
+#    - service: automation.turn_off
+#      entity_id: automation.welcome_greetings
+#
+##################################################################
+##
+##
+## Welcome Greetings
+##
+##
+#################################################################
+#
+## Play welcome audio on xiaomi
+#- alias: Welcome Greetings
+#  hide_entity: true
+#  initial_state: 'off'
+#  trigger:
+#    - platform: state
+#      entity_id:
+#        - binary_sensor.hall
+#      to: 'on'
+#  action:
+#  - service: xiaomi_aqara.play_ringtone
+#    data:
+#      gw_mac: '34:ce:00:83:8c:96'
+#      ringtone_id: '10002'
+#      ringtone_vol: '30'
+#  - service: light.turn_on
+#    entity_id: light.gateway_light_34ce00838c96
+#    data_template:
+#      rgb_color: ['{{ (range(0, 255)|random|int) }}', '{{ (range(0, 255)|random|int) }}', '{{ (range(0, 255)|random|int) }}']
+#      brightness: 50
+#  - delay:
+#      seconds: 0.5
+#  - service: light.turn_on
+#    entity_id: light.gateway_light_34ce00838c96
+#    data_template:
+#      rgb_color: ['{{ (range(0, 255)|random|int) }}', '{{ (range(0, 255)|random|int) }}', '{{ (range(0, 255)|random|int) }}']
+#      brightness: 50
+#  - delay:
+#      seconds: 0.5
+#  - service: light.turn_on
+#    entity_id: light.gateway_light_34ce00838c96
+#    data_template:
+#      rgb_color: ['{{ (range(0, 255)|random|int) }}', '{{ (range(0, 255)|random|int) }}', '{{ (range(0, 255)|random|int) }}']
+#      brightness: 50
+#  - delay:
+#      seconds: 0.5
+#  - service: light.turn_on
+#    entity_id: light.gateway_light_34ce00838c96
+#    data_template:
+#      rgb_color: ['{{ (range(0, 255)|random|int) }}', '{{ (range(0, 255)|random|int) }}', '{{ (range(0, 255)|random|int) }}']
+#      brightness: 50
+#  - delay:
+#      seconds: 0.5
+#  - service: light.turn_on
+#    entity_id: light.gateway_light_34ce00838c96
+#    data_template:
+#      rgb_color: ['{{ (range(0, 255)|random|int) }}', '{{ (range(0, 255)|random|int) }}', '{{ (range(0, 255)|random|int) }}']
+#      brightness: 50
+#  - delay:
+#      seconds: 0.5
+#  - service: light.turn_off
+#    entity_id: light.gateway_light_34ce00838c96
+#  - service: automation.turn_off
+#    entity_id: automation.welcome_greetings
+
+################################################################
+#
+#
+# Start Homekit after yeelight appears
+#
+#
+################################################################
+
+- alias: Start Homekit
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - wait_template: >-
+        {% if not states.light.bedroom %}
+          false
+        {% else %}
+          true
+        {% endif %}
+      timeout: 00:10 #max timeout for 10 minutes
+      continue_on_timeout: true
+    - service: homekit.start
+
+################################################################
+#
+#
+# Doorbell notification on google home and kitchen lights
+#
+#
+################################################################
+
+- alias: Doorbell Notification
+  trigger:
+    platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: binary_sensor.switch_158d000183e596
+# if we want all button press to trigger action, then no
+# condition is needed
+  condition:
+    condition: template
+    value_template: >
+      {{ trigger.event.data.click_type in ['single', 'double'] }}
+  action:
+  - service: tts.google_translate_say
+    entity_id: media_player.kitchen_speaker
+    data:
+      message: '有客人到'
+  - service: light.turn_on
+    entity_id: light.kitchen
+  - service: light.turn_off
+    entity_id: light.dining
+  - delay:
+      seconds: 0.5
+  - service: light.turn_on
+    entity_id: light.dining
+  - service: light.turn_off
+    entity_id: light.kitchen
+  - delay:
+      seconds: 0.5
+  - service: light.turn_on
+    entity_id: light.kitchen
+  - service: light.turn_off
+    entity_id: light.dining
+  - delay:
+      seconds: 0.5
+  - service: light.turn_on
+    entity_id: light.dining
+  - service: light.turn_off
+    entity_id: light.kitchen
+  - delay:
+      seconds: 0.5
+  - service: light.turn_off
+    entity_id: light.dining
