@@ -16,6 +16,23 @@ media_player:
     access_token: '214850'
     host: 10.0.0.227
 
+ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg
+
+camera:
+  - platform: ffmpeg
+    input: -rtsp_transport tcp -i rtsp://admin:82111e&109A@192.168.1.206:554/Streaming/Channels/802
+    extra_arguments: -q:v 2 -s 900x600
+    name: garden
+  - platform: ffmpeg
+    input: -rtsp_transport tcp -i rtsp://admin:82111e&109A@192.168.1.206:554/Streaming/Channels/202
+    extra_arguments: -q:v 2 -s 900x600
+    name: front
+  - platform: ffmpeg
+    input: -rtsp_transport tcp -i rtsp://admin:82111e&109A@192.168.1.206:554/Streaming/Channels/102
+    extra_arguments: -q:v 2 -s 900x600
+    name: roof
+
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
