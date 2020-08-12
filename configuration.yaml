@@ -21,6 +21,22 @@ yeelight:
     192.168.1.225:
       name: Bedroom
 
+mqtt:
+  broker: 192.168.1.7
+  port: 2883
+  username: ha
+  password: smarthome
+
+homekit:
+  auto_start: false
+  filter:
+    include_domains:
+      - light
+      - sensor
+      - input_boolean
+      - media_player
+  ip_address: '192.168.1.7'
+
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg
 
