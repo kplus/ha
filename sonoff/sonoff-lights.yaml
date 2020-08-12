@@ -64,7 +64,7 @@
 
   - platform: mqtt
     name: "bath"
-    state_topic: "stat/sonoff-bath/POWER1"
+    state_topic: "stat/sonoff-bath/POWER"
     command_topic: "cmnd/sonoff-bath/POWER"
     qos: 1
     payload_on: "ON"
