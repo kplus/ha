@@ -1,0 +1,27 @@
+# individual pir for lights
+  pir_hall:
+    name: 大门口移动监测
+  pir_living_room:
+    name: 客厅移动监测
+  pir_playroom:
+    name: 玩具房移动监测
+  pir_kitchen:
+    name: 厨房移动监测
+  pir_dining:
+    name: 饭厅移动监测
+  pir_toilet:
+    name: 厕所移动监测
+  pir_bath:
+    name: 浴室移动监测
+  pir_landing:
+    name: 楼上走道移动监测
+
+# pre light boolean
+  pre_hall:
+  pre_living_room:
+  pre_playroom:
+  pre_kitchen:
+  pre_dining:
+  pre_toilet:
+  pre_bath:
+
