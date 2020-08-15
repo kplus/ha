@@ -55,6 +55,7 @@ views:
           - input_boolean.pir_toilet
           - input_boolean.pir_bath
           - input_boolean.pir_landing
+          - input_boolean.night_mode
         title: 移动监测
     badges:
       - device_tracker.terrys_iphone_2
