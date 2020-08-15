@@ -16,12 +16,15 @@
   pir_landing:
     name: 楼上走道移动监测
 
-# pre light boolean
-  pre_hall:
-  pre_living_room:
-  pre_playroom:
-  pre_kitchen:
-  pre_dining:
-  pre_toilet:
-  pre_bath:
+# light mode
+  night_mode:
+
+## pre light boolean
+#  pre_hall:
+#  pre_living_room:
+#  pre_playroom:
+#  pre_kitchen:
+#  pre_dining:
+#  pre_toilet:
+#  pre_bath:
 
