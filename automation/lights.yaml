@@ -65,10 +65,8 @@
 #   For those functions who don't directly control lights logic
 #
 # 1. Initial off lights when restart HA
-# 2. Set pir in afternoon depends on weather and sun
-# 3. Unset pir in morning depens on sun
-# 4. Bath always on when door is close and motion detected
-# 5. Reset bath pir when light is off or door is open
+# 2. Bath always on when door is close and motion detected
+# 3. Reset bath pir when light is off or door is open
 #
 #
 #################################################################
@@ -103,52 +101,6 @@
 #    data_template:
 #      entity_id: '{{"input_boolean.pre_" + trigger.entity_id.split(".")[1]}}'
 
-- alias: set pir
-  initial_state: 'on'
-  trigger:
-      # when sun is below horizon, set darker rooms pir in not sunny days
-    - platform: numeric_state
-      entity_id: sun.sun
-      value_template: "{{ state_attr('sun.sun', 'elevation') }}"
-      below: 3
-      # when sun is in Nautical twilight, set pir depends on weather
-    - platform: numeric_state
-      entity_id: sun.sun
-      value_template: "{{ state_attr('sun.sun', 'elevation') }}"
-      below: 0
-      # when in night, set all pirs, this consistant with reset pir
-    - platform: numeric_state
-      entity_id: sun.sun
-      value_template: "{{ state_attr('sun.sun', 'elevation') }}"
-      below: -5
-  action:
-    service: input_boolean.turn_on
-    data_template:
-      # weather symbol == 1 means sunny
-      # https://api.met.no/weatherapi/weathericon/1.1/documentation
-      entity_id: >
-        {% if ((state_attr('sun.sun', 'elevation') > 0) and (state_attr('sensor.weather_symbol', 'symbol') != 1)) or ((state_attr('sun.sun', 'elevation') > -5) and (state_attr('sun.sun', 'elevation') < 0) and (state_attr('sensor.weather_symbol', 'symbol') == 1)) %}
-          input_boolean.pir_playroom
-        {% else %}
-          group.pir
-        {% endif %}
-
-- alias: unset pir
-  initial_state: 'on'
-  trigger:
-      # when sun is above horizon, unset pir
-    - platform: numeric_state
-      entity_id: sun.sun
-      value_template: "{{ state_attr('sun.sun', 'elevation') }}"
-      above: 0
-      # when sun is above -6, unset pir
-    - platform: numeric_state
-      entity_id: sun.sun
-      value_template: "{{ state_attr('sun.sun', 'elevation') }}"
-      above: -6
-  action:
-    service: input_boolean.turn_off
-    entity_id: group.pir
 
 # Bath light always on, mainly used in shower
 # As light will be turned on by generic turn of
@@ -196,8 +148,13 @@
 #
 # Light control functions
 #
+# There are 6 functions to control the lights logic
+# 1. Set a night_mode flag. Check input_booleans every half hour
+# and set it to night_mode if idle for 20 mintues.
+#
 #
 ###########################################################################
+# Function 1
 - alias: check and set day/night mode every hour
   initial_state: 'on'
   trigger:
@@ -206,17 +163,50 @@
     minutes: 0
     seconds: 0
   action:
-  # turn off pir every hour during day time
+  # unset night_mode every hour during day time
   - service: input_boolean.turn_off
     data:
       entity_id: input_boolean.night_mode
-  # In night, turn on all PIRs, we use Twilight as condition,
-  # special set is done in "set pir when ..." functions
+  # In night, set night_mode every hour
   - condition: template
     value_template: '{{ state_attr("sun.sun", "elevation") < -5 }}'
   - service: input_boolean.turn_on
     data:
-      entity_id: night_mode
+      entity_id: input_boolean.night_mode
+
+- alias: check PIR
+  initial_state: 'on'
+  trigger:
+    - platform: time_pattern
+      minutes: '/30'
+      seconds: 0
+  action:
+    - service_template: >
+          {% if is_state("input_boolean.night_mode", "on") %}
+            input_boolean.turn_on
+          {% else %}
+            input_boolean.turn_off
+          {% endif %}
+      data_template:
+        entity_id: >
+          {% if (states("input_boolean.pir_landing") != states("input_boolean.night_mode")) and is_state("binary_sensor.landing", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.landing.last_changed)) > 1200) %}
+            input_boolean.pir_landing
+          {% elif (states("input_boolean.pir_bath") != states("input_boolean.night_mode")) and is_state("binary_sensor.bath", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.bath.last_changed)) > 1200) %}
+            input_boolean.pir_bath
+          {% elif (states("input_boolean.pir_dining") != states("input_boolean.night_mode")) and is_state("binary_sensor.dining", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.dining.last_changed)) > 1200) %}
+            input_boolean.pir_dining
+          {% elif (states("input_boolean.pir_hall") != states("input_boolean.night_mode")) and is_state("binary_sensor.hall", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.hall.last_changed)) > 1200) %}
+            input_boolean.pir_hall
+          {% elif (states("input_boolean.pir_playroom") != states("input_boolean.night_mode")) and is_state("binary_sensor.playroom", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.playroom.last_changed)) > 1200) %}
+            input_boolean.pir_playroom
+          {% elif (states("input_boolean.pir_toilet") != states("input_boolean.night_mode")) and is_state("binary_sensor.toilet", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.toilet.last_changed)) > 1200) %}
+            input_boolean.pir_toilet
+          {% elif (states("input_boolean.pir_kitchen") != states("input_boolean.night_mode")) and is_state("binary_sensor.kitchen", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.kitchen.last_changed)) > 1200) %}
+            input_boolean.pir_kitchen
+          {% elif (states("input_boolean.pir_living_room") != states("input_boolean.night_mode")) and is_state("binary_sensor.living_room", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.living_room.last_changed)) > 1200) %}
+            input_boolean.pir_living_room
+          {% endif %}
+
 
 - alias: Turn on lights
   mode: parallel
@@ -516,4 +506,3 @@
 #            light.loft
 #          {% endif %}
 #
-
