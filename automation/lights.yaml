@@ -150,8 +150,9 @@
 #
 # There are 6 functions to control the lights logic
 # 1. Set a night_mode flag. Check input_booleans every half hour
-# and set it to night_mode if idle for 20 mintues.
-#
+# and set it to be same as night_mode if idle for 20 mintues.
+# 2. PIR on triggers. If input_boolean is on and light is off, turn light
+# on. If light is on already, update timer.
 #
 ###########################################################################
 # Function 1
@@ -207,9 +208,8 @@
             input_boolean.pir_living_room
           {% endif %}
 
-
+# function 2
 - alias: Turn on lights
-  mode: parallel
   initial_state: 'on'
   trigger:
     platform: state
@@ -224,20 +224,46 @@
 #      - binary_sensor.hall
     to: 'on'
   condition:
-    # when RID control is enabled
-    condition: template
-    value_template: '{{ is_state("input_boolean.pir_" + trigger.entity_id.split(".")[1].split("_")[0], "on") }}'
+    condition: and
+    conditions:
+      # when RID control is enabled
+      - condition: template
+        value_template: '{{ is_state("input_boolean.pir_" + trigger.entity_id.split(".")[1].split("_")[0], "on") }}'
+      # when light is off
+      - condition: template
+        value_template: '{{ is_state("light." + trigger.entity_id.split(".")[1].split("_")[0], "off") }}'
   action:
-      # bindly unset input_boolean, not sure if this will generate error messages if already off
-    - service: input_boolean.turn_off
-      data_template:
-        entity_id: '{{"input_boolean.pre_" + trigger.entity_id.split(".")[1].split("_")[0]}}'
-      # when LED is off, not sure if this can be removed
-    - condition: template
-      value_template: '{{ is_state("light." + trigger.entity_id.split(".")[1].split("_")[0], "off") }}'
     - service: light.turn_on
       data_template:
         entity_id: '{{"light." + trigger.entity_id.split(".")[1].split("_")[0]}}'
+
+- alias: Restart timers
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id:
+      - binary_sensor.kitchen
+      - binary_sensor.kitchen_sonoff
+      - binary_sensor.dining
+      - binary_sensor.bath
+      - binary_sensor.playroom
+      - binary_sensor.toilet
+      - binary_sensor.living_room
+#      - binary_sensor.hall
+    to: 'on'
+  condition:
+# when light is on
+    condition: template
+    value_template: '{{ is_state("light." + trigger.entity_id.split(".")[1].split("_")[0], "on") }}'
+  action:
+    - service: timer.start
+      data_template: 
+        entity_id: >
+          {% if states("timer.long_" + trigger.entity_id.split(".")[1].split("_")[0]) != "idle" %}
+            {{ "timer.long_" + trigger.entity_id.split(".")[1].split("_")[0] }}
+          {% elif states("timer.short_" + trigger.entity_id.split(".")[1].split("_")[0]) != "idle" %}
+            {{ "timer.short_" + trigger.entity_id.split(".")[1].split("_")[0] }}
+          {% endif %}
 ###########################################################################
 #
 #
