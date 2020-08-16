@@ -153,6 +153,7 @@
 # and set it to be same as night_mode if idle for 20 mintues.
 # 2. PIR on triggers. If input_boolean is on and light is off, turn light
 # on. If light is on already, update timer.
+# 3. Set short timer whenever light turns on
 #
 ###########################################################################
 # Function 1
@@ -252,7 +253,7 @@
 #      - binary_sensor.hall
     to: 'on'
   condition:
-# when light is on
+# when light is already on
     condition: template
     value_template: '{{ is_state("light." + trigger.entity_id.split(".")[1].split("_")[0], "on") }}'
   action:
@@ -264,6 +265,25 @@
           {% elif states("timer.short_" + trigger.entity_id.split(".")[1].split("_")[0]) != "idle" %}
             {{ "timer.short_" + trigger.entity_id.split(".")[1].split("_")[0] }}
           {% endif %}
+
+# function 3
+- alias: Start short timers
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id:
+      - light.kitchen
+      - light.dining
+      - light.bath
+      - light.playroom
+      - light.toilet
+      - light.living_room
+#      - light.hall
+    to: 'on'
+  action:
+    - service: timer.start
+      data_template:
+        entity_id: '{{ "timer.short_" + trigger.entity_id.split(".")[1] }}'
 ###########################################################################
 #
 #
