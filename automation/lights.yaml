@@ -125,7 +125,7 @@
 # 4. Short timeout handling. If PIR has been off for long, turn off light;
 # otherwise start long timeout.
 # 5. Delay automation when light is off(combine with function 4, this case
-# is limited to manually off only)
+# is limited to manually off only), also cancel both timers
 # 6. Turn off light when long timeout and input_boolean is set
 #
 ###########################################################################
@@ -235,8 +235,6 @@
         entity_id: >
           {% if states("timer.long_" + trigger.entity_id.split(".")[1].split("_")[0]) != "idle" %}
             {{ "timer.long_" + trigger.entity_id.split(".")[1].split("_")[0] }}
-          {% elif states("timer.short_" + trigger.entity_id.split(".")[1].split("_")[0]) != "idle" %}
-            {{ "timer.short_" + trigger.entity_id.split(".")[1].split("_")[0] }}
           {% endif %}
 
 # function 3
@@ -279,7 +277,7 @@
     condition: template
     value_template: >
       {% set name = trigger.entity_id.split(".")[1].split("_")[1] %}
-      {{ is_state("light." + name, "on") and is_state("binary_sensor." + name, "off") and (as_timestamp(now())-as_timestamp(states.binary_sensor[name].last_changed) > 15) }}
+      {{ is_state("light." + name, "on") and is_state("binary_sensor." + name, "off") and (as_timestamp(now())-as_timestamp(states.binary_sensor[name].last_changed) > 7) }}
   action:
     - service: light.turn_off
       data_template:
@@ -307,7 +305,7 @@
     condition: template
     value_template: >
       {% set name = trigger.entity_id.split(".")[1].split("_")[1] %}
-      {{ is_state("light." + name, "on") and (is_state("binary_sensor." + name, "on") or (as_timestamp(now())-as_timestamp(states.binary_sensor[name].last_changed) < 8)) }}
+      {{ is_state("light." + name, "on") and (is_state("binary_sensor." + name, "on") or (as_timestamp(now())-as_timestamp(states.binary_sensor[name].last_changed) < 7)) }}
   action:
     - service: timer.start
       data_template:
@@ -329,6 +327,12 @@
 #      - light.hall
     to: 'off'
   action:
+    - service: timer.cancel
+      data_template:
+        entity_id: '{{ "timer.short_" + trigger.entity_id.split(".")[1].split("_")[0] }}'
+    - service: timer.cancel
+      data_template:
+        entity_id: '{{ "timer.long_" + trigger.entity_id.split(".")[1].split("_")[0] }}'
     - service: input_boolean.turn_off
       data_template:
         entity_id: '{{ "input_boolean.pir_" + trigger.entity_id.split(".")[1].split("_")[0] }}'
