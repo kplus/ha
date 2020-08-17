@@ -257,7 +257,7 @@
         entity_id: '{{ "light." + trigger.entity_id.split(".")[1].split("_")[1] }}'
     - service: input_boolean.turn_on
       data_template:
-        entity_id: '{{ "input_boolean." + trigger.entity_id.split(".")[1].split("_")[1] }}'
+        entity_id: '{{ "input_boolean.pir_" + trigger.entity_id.split(".")[1].split("_")[1] }}'
 
 - alias: Short timeout to long timeout
   initial_state: 'on'
@@ -313,6 +313,31 @@
       data_template:
         entity_id: '{{ "input_boolean.pir_" + trigger.entity_id.split(".")[1].split("_")[0] }}'
 
+# function 6
+- alias: Long timeout lights off
+  initial_state: 'on'
+  trigger:
+    - platform: template
+      value_template: '{{ is_state("timer.long_bath", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.long_dining", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.long_kitchen", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.long_playroom", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.long_toilet", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.long_dining", "idle") }}'
+  condition:
+    condition: template
+    value_template: >
+      {% set name = trigger.entity_id.split(".")[1].split("_")[1] %}
+      {{ is_state("light." + name, "on") and is_state("input_boolean.pir_" + name, "on") }}
+  action:
+    - service: light.turn_off
+      data_template:
+        entity_id: '{{ "light." + trigger.entity_id.split(".")[1].split("_")[1] }}'
 ###########################################################################
 #
 #
