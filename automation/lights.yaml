@@ -7,6 +7,8 @@
 # 1. Initial off lights when restart HA
 # 2. Bath always on when door is close and motion detected
 # 3. Reset bath pir when light is off or door is open
+# 4. Safe guard to check lights every 1 hour and turn off
+# necessary ones
 #
 #
 #################################################################
@@ -21,26 +23,6 @@
   action:
     service: light.turn_off
     entity_id: group.all_lights
-
-# unset pre lights when lights turn off
-#- alias: unset pre lights
-#  initial_state: 'on'
-#  trigger:
-#    platform: state
-#    entity_id:
-#      - light.kitchen
-#      - light.dining
-#      - light.bath
-#      - light.playroom
-#      - light.toilet
-#      - light.living_room
-#      - light.hall
-#  action:
-#    # bindly unset input_boolean, not sure if this will generate error messages if already off
-#    service: input_boolean.turn_off
-#    data_template:
-#      entity_id: '{{"input_boolean.pre_" + trigger.entity_id.split(".")[1]}}'
-
 
 # Bath light always on, mainly used in shower
 # As light will be turned on by generic turn of
@@ -82,6 +64,34 @@
     - service: automation.turn_off
       entity_id: automation.bath_pir_reset
 
+# safeguard for 1201s
+- alias: safeguard loop
+  initial_state: 'on'
+  trigger:
+    - platform: time_pattern
+      minutes: '/29'
+      seconds: 0
+  action:
+    - service: light.turn_off
+      data_template:
+        entity_id: >
+          {% if is_state("light.hall", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.hall.last_changed)) > 1200) %}
+            light.hall
+          {% elif is_state("light.playroom", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.playroom.last_changed)) > 1200) %}
+            light.playroom
+          {% elif is_state("light.toilet", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.toilet.last_changed)) > 1200) %}
+            light.toilet
+          {% elif is_state("light.dining", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.dining.last_changed)) > 1200) %}
+            light.dining
+          {% elif is_state("light.kitchen", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.kitchen.last_changed)) > 1200) %}
+            light.kitchen
+          {% elif is_state("light.bath", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.bath.last_changed)) > 1200) %}
+            light.bath
+          {% elif is_state("light.living_room", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.living_room.last_changed)) > 1200) %}
+            light.living_room
+          {% elif is_state("light.loft", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.loft.last_changed)) > 1200) %}
+            light.loft
+          {% endif %}
 
 ###########################################################################
 #
@@ -338,77 +348,6 @@
     - service: light.turn_off
       data_template:
         entity_id: '{{ "light." + trigger.entity_id.split(".")[1].split("_")[1] }}'
-###########################################################################
-#
-#
-# Neighbor sensor handling (C1 in flowchart)
-# The idea is:
-#    If people is moving away from an area where the light was on, they must
-#    be soon enterring a neighbor area, so motion sensor in a neighbor area
-#    can be used as a condition to accruatly control lights
-#
-# This is a helper function in theroy, but as it's a big part of light control
-# logic, we have it separate.
-#
-###########################################################################
-#- alias: Pre lights Handling
-#  initial_state: 'on'
-#  trigger:
-#    - platform: state
-#      entity_id:
-#        - binary_sensor.hall
-#        - binary_sensor.hall2
-#        - binary_sensor.living_room
-#        - binary_sensor.playroom
-#        - binary_sensor.kitchen_sonoff
-#        - binary_sensor.toilet
-#        - binary_sensor.landing
-#      to: 'on'
-##  condition:
-##    # when RID control is enabled
-##    condition: template
-##    value_template: '{{ is_state("input_boolean.pir_" + trigger.entity_id.split(".")[1], "on") }}'
-#  action:
-#    - service: input_boolean.turn_on
-#      data_template:
-#        entity_id: >
-#          {% if trigger.entity_id == "binary_sensor.kitchen_sonoff" %}
-#            input_boolean.pre_playroom
-#          {% elif trigger.entity_id == "binary_sensor.hall2" %}
-#            input_boolean.pre_playroom
-#          {% elif trigger.entity_id == "binary_sensor.hall" %}
-#            input_boolean.pre_living_room
-#          {% elif trigger.entity_id == "binary_sensor.toilet" %}
-#            input_boolean.pre_kitchen
-#          {% elif trigger.entity_id == "binary_sensor.landing" %}
-#            input_boolean.pre_bath
-#          {% elif trigger.entity_id == "binary_sensor.living_room" %}
-#            input_boolean.pre_hall
-#          {% elif trigger.entity_id == "binary_sensor.playroom" %}
-#            input_boolean.pre_kitchen
-#          {% endif %}
-#    - service: input_boolean.turn_on
-#      data_template:
-#        entity_id: >
-#          {% if trigger.entity_id == "binary_sensor.kitchen_sonoff" %}
-#            input_boolean.pre_toilet
-#          {% elif trigger.entity_id == "binary_sensor.hall2" %}
-#            input_boolean.pre_living_room
-#          {% elif trigger.entity_id == "binary_sensor.hall" %}
-#            input_boolean.pre_playroom
-#          {% elif trigger.entity_id == "binary_sensor.toilet" %}
-#            input_boolean.pre_dining
-#          {% elif trigger.entity_id == "binary_sensor.landing" %}
-#            input_boolean.pre_hall
-#          {% endif %}
-#    - service: input_boolean.turn_on
-#      data_template:
-#        entity_id: >
-#          {% if trigger.entity_id == "binary_sensor.kitchen_sonoff" %}
-#            input_boolean.pre_dining
-#          {% elif trigger.entity_id == "binary_sensor.hall2" %}
-#            input_boolean.pre_hall
-#          {% endif %}
 
 
 
@@ -429,180 +368,3 @@
     entity_id: light.loft
 
 
-#################################################################
-#
-#
-# Turn off Lights, slow off is B1 in flowchart, and quick off
-# is B2.
-#
-#
-################################################################
-#- alias: Slow Off lights
-#  initial_state: 'on'
-#  trigger:
-#      # 127s
-#    - platform: state
-#      entity_id: binary_sensor.bath
-#      to: 'off'
-#      for: '00:02:07'
-#    - platform: state
-#      entity_id: binary_sensor.playroom
-#      to: 'off'
-#      for: '00:02:07'
-#    - platform: state
-#      entity_id: binary_sensor.toilet
-#      to: 'off'
-#      for: '00:02:07'
-#    - platform: state
-#      entity_id: binary_sensor.dining
-#      to: 'off'
-#      for: '00:02:07'
-#    - platform: state
-#      entity_id: binary_sensor.kitchen
-#      to: 'off'
-#      for: '00:02:07'
-#    - platform: state
-#      entity_id: binary_sensor.hall
-#      to: 'off'
-#      for: '00:02:07'
-#      # loft uses contact sensor, so turn off light immediately after sensor is off
-#    - platform: state
-#      entity_id: binary_sensor.loft
-#      to: 'off'
-#  condition:
-#    # when RID control, and light are on, Pre light boolean is off
-#    condition: and
-#    conditions:
-#      - condition: template
-#        value_template: '{{ is_state("light." + trigger.entity_id.split(".")[1], "on") }}'
-#      - condition: template
-#        value_template: '{{ is_state("input_boolean.pir_" + trigger.entity_id.split(".")[1], "on") }}'
-#  action: &off_light_action
-#  - service: light.turn_off
-#    data_template:
-#      entity_id: '{{"light." + trigger.entity_id.split(".")[1]}}'
-#
-#- alias: Quick Off lights
-#  initial_state: 'on'
-#  trigger:
-#      # 10s
-#    - platform: state
-#      entity_id: binary_sensor.bath
-#      to: 'off'
-#      for: '00:00:07'
-#    - platform: state
-#      entity_id: binary_sensor.playroom
-#      to: 'off'
-#      for: '00:00:07'
-#    - platform: state
-#      entity_id: binary_sensor.toilet
-#      to: 'off'
-#      for: '00:00:07'
-#    - platform: state
-#      entity_id: binary_sensor.dining
-#      to: 'off'
-#      for: '00:00:07'
-#    - platform: state
-#      entity_id: binary_sensor.kitchen
-#      to: 'off'
-#    - platform: state
-#      entity_id: binary_sensor.hall
-#      to: 'off'
-#      for: '00:00:07'
-#  condition:
-#    # when RID control, Pre light boolean and light are on
-#    condition: and
-#    conditions:
-#      - condition: template
-#        value_template: '{{ is_state("input_boolean.pre_" + trigger.entity_id.split(".")[1], "on") }}'
-#      - condition: template
-#        value_template: '{{ is_state("input_boolean.pir_" + trigger.entity_id.split(".")[1], "on") }}'
-#      - condition: template
-#        value_template: '{{ is_state("light." + trigger.entity_id.split(".")[1], "on") }}'
-#  action: *off_light_action
-
-
-################################################################
-#
-# Safeguard for all lights
-#
-################################################################
-
-#- alias: Turn Off lights after long time idle
-#  initial_state: 'on'
-#  trigger:
-#    # first safeguard for 307s
-#    - platform: state
-#      entity_id: binary_sensor.hall
-#      to: 'off'
-#      for: '00:05:07'
-#    - platform: state
-#      entity_id: binary_sensor.playroom
-#      to: 'off'
-#      for: '00:05:07'
-#    - platform: state
-#      entity_id: binary_sensor.toilet
-#      to: 'off'
-#      for: '00:05:07'
-#    - platform: state
-#      entity_id: binary_sensor.dining
-#      to: 'off'
-#      for: '00:05:07'
-#    - platform: state
-#      entity_id: binary_sensor.kitchen
-#      to: 'off'
-#      for: '00:05:07'
-#    - platform: state
-#      entity_id: binary_sensor.bath
-#      to: 'off'
-#      for: '00:05:07'
-#    - platform: state
-#      entity_id: binary_sensor.living_room
-#      to: 'off'
-#      for: '00:05:07'
-#    - platform: state
-#      entity_id: binary_sensor.loft
-#      to: 'off'
-#      for: '00:05:07'
-#  condition:
-#    condition: and
-#    conditions:
-#      - condition: template
-#        value_template: '{{ is_state("light." + trigger.entity_id.split(".")[1], "on") }}'
-#        # when RID control is enabled
-#      - condition: template
-#        value_template: '{{ is_state("input_boolean.pir_" + trigger.entity_id.split(".")[1], "on") }}'
-#  action:
-#  - service: light.turn_off
-#    data_template:
-#      entity_id: '{{"light." + trigger.entity_id.split(".")[1]}}'
-#
-## second safeguard for 1201s
-#- alias: safeguard loop
-#  initial_state: 'on'
-#  trigger:
-#    - platform: time_pattern
-#      minutes: '/29'
-#      seconds: 0
-#  action:
-#    - service: light.turn_off
-#      data_template:
-#        entity_id: >
-#          {% if is_state("light.hall", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.hall.last_changed)) > 1200) %}
-#            light.hall
-#          {% elif is_state("light.playroom", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.playroom.last_changed)) > 1200) %}
-#            light.playroom
-#          {% elif is_state("light.toilet", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.toilet.last_changed)) > 1200) %}
-#            light.toilet
-#          {% elif is_state("light.dining", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.dining.last_changed)) > 1200) %}
-#            light.dining
-#          {% elif is_state("light.kitchen", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.kitchen.last_changed)) > 1200) %}
-#            light.kitchen
-#          {% elif is_state("light.bath", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.bath.last_changed)) > 1200) %}
-#            light.bath
-#          {% elif is_state("light.living_room", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.living_room.last_changed)) > 1200) %}
-#            light.living_room
-#          {% elif is_state("light.loft", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.loft.last_changed)) > 1200) %}
-#            light.loft
-#          {% endif %}
-#
