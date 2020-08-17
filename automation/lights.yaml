@@ -96,6 +96,8 @@
 # 3. Set short timer whenever light turns on
 # 4. Short timeout handling. If PIR has been off for long, turn off light;
 # otherwise start long timeout.
+# 5. Delay automation when light is off(combine with function 4, this case
+# is limited to manually off only)
 #
 ###########################################################################
 # Function 1
@@ -281,6 +283,36 @@
     - service: timer.start
       data_template:
         entity_id: '{{ "timer.long_" + trigger.entity_id.split(".")[1].split("_")[1] }}'
+
+# function 5
+- alias: Light off delays
+  initial_state: 'on'
+  mode: parallel
+  trigger:
+    platform: state
+    entity_id:
+      - light.kitchen
+      - light.dining
+      - light.bath
+      - light.playroom
+      - light.toilet
+      - light.living_room
+#      - light.hall
+    to: 'off'
+  action:
+    - service: input_boolean.turn_off
+      data_template:
+        entity_id: '{{ "input_boolean.pir_" + trigger.entity_id.split(".")[1].split("_")[0] }}'
+    - delay: 00:00:05
+    - service_template: >
+        {% if is_state("input_boolean.night_mode", "on") %}
+          input_boolean.turn_on
+        {% else %}
+          input_boolean.turn_off
+        {% endif %}
+      data_template:
+        entity_id: '{{ "input_boolean.pir_" + trigger.entity_id.split(".")[1].split("_")[0] }}'
+
 ###########################################################################
 #
 #
