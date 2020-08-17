@@ -1,63 +1,3 @@
-################################################################################
-#			Lights state flowchart
-#
-# Symbols:			Events:				1	2
-#	L:  light			A: 开关			开	关
-#	PL: pre light			B: 延时			长	短
-#	RP: pir				C: neighbor sensor	on	off
-#	S:  sensor			D: sensor		on	off
-#	NP: neighbor pre light
-#
-#			      |—————————|
-#			      | L:  OFF |
-#			      | PL: OFF |
-#			      | PR: OFF |
-#			      | S:  OFF |
-#			      | NP: OFF |
-#			      |_________|
-#				|   /|\	
-#			 PR->ON	|    | PR->OFF
-#			       \|/   |
-#			      |—————————|		|—————————|
-#			      |   *S*	|—————— A1 ————>|   *N*	  |
-#			      | L:  OFF |<————— A2 —————| L:  ON  |
-#			      | PL: OFF |<————— B2 —————| PL: OFF |
-#	|————————————————————>| PR: ON	|	  —————>| S:  OFF |
-#	|		      | S:  OFF |	 /  ____| NP: NA  |
-#	D2		      | NP: OFF |<—\	/  /	|_________|
-#	|		      |_________|   \ D2 D1		|	
-#	|			|	     \/  /		|
-#	|			D1	     /  /		C1
-#	|		       \|/	    /  /	       \|/
-#   |—————————|		      |—————————|  /  /	\	|—————————|
-#   |	*R*   |		      |   *M*	|_/  /	 A2	|   *P*	  |
-#   | L:  OFF |		      | L:  ON	|   /	  or	| L:  ON  |
-#   | PL: OFF |<————— A2 —————| PL: OFF |<—/ 	   B2	| PL: ON  |
-#   | S:  ON  |—————— A1 ————>| S:  ON	|	     \__| S:  OFF |
-#   | NP: NA  |		      | NP: ON	|		| NP: NA  |
-#   |_________|		      |_________|<————— D1 —————|_________|
-#      /|\			|			       /|\
-#	|			C1				|
-#	|		       \|/				|
-#	|		      |—————————|			|
-#	|____________ A2 _____|   *Q*	|______ D2 _____________|
-#			      | L:  ON	|
-#			      | PL: ON	|
-#			      | S:  ON	|
-#			      | NP: NA	|
-#			      |_________|
-#
-# Functions:
-#	B(B1/2) ->	unset L
-#	C1	->	set PL only when L is on
-#	D1	->	set L, unset PL
-#	L1/2	->	unset PL
-#
-#
-################################################################################
-
-
-
 #################################################################
 #
 #
@@ -149,11 +89,13 @@
 # Light control functions
 #
 # There are 6 functions to control the lights logic
-# 1. Set a night_mode flag. Check input_booleans every half hour
+# 1. Set a night_mode flag. And check input_booleans every half hour
 # and set it to be same as night_mode if idle for 20 mintues.
 # 2. PIR on triggers. If input_boolean is on and light is off, turn light
 # on. If light is on already, update timer.
 # 3. Set short timer whenever light turns on
+# 4. Short timeout handling. If PIR has been off for long, turn off light;
+# otherwise start long timeout.
 #
 ###########################################################################
 # Function 1
@@ -284,6 +226,61 @@
     - service: timer.start
       data_template:
         entity_id: '{{ "timer.short_" + trigger.entity_id.split(".")[1] }}'
+
+# function 4
+# cannot use event trigger as not able to fetch trigger information
+- alias: Short timeout lights off
+  initial_state: 'on'
+  trigger:
+    - platform: template
+      value_template: '{{ is_state("timer.short_bath", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.short_dining", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.short_kitchen", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.short_playroom", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.short_toilet", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.short_dining", "idle") }}'
+  condition:
+    condition: template
+    value_template: >
+      {% set name = trigger.entity_id.split(".")[1].split("_")[1] %}
+      {{ is_state("light." + name, "on") and is_state("binary_sensor." + name, "off") and (as_timestamp(now())-as_timestamp(states.binary_sensor[name].last_changed) > 15) }}
+  action:
+    - service: light.turn_off
+      data_template:
+        entity_id: '{{ "light." + trigger.entity_id.split(".")[1].split("_")[1] }}'
+    - service: input_boolean.turn_on
+      data_template:
+        entity_id: '{{ "input_boolean." + trigger.entity_id.split(".")[1].split("_")[1] }}'
+
+- alias: Short timeout to long timeout
+  initial_state: 'on'
+  trigger:
+    - platform: template
+      value_template: '{{ is_state("timer.short_bath", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.short_dining", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.short_kitchen", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.short_playroom", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.short_toilet", "idle") }}'
+    - platform: template
+      value_template: '{{ is_state("timer.short_dining", "idle") }}'
+  condition:
+    condition: template
+    value_template: >
+      {% set name = trigger.entity_id.split(".")[1].split("_")[1] %}
+      {{ is_state("light." + name, "on") and (is_state("binary_sensor." + name, "on") or (as_timestamp(now())-as_timestamp(states.binary_sensor[name].last_changed) < 8)) }}
+  action:
+    - service: timer.start
+      data_template:
+        entity_id: '{{ "timer.long_" + trigger.entity_id.split(".")[1].split("_")[1] }}'
 ###########################################################################
 #
 #
