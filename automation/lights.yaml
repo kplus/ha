@@ -24,7 +24,7 @@
       event: shutdown
   action:
     service: light.turn_off
-    entity_id: group.all_lights
+    entity_id: all
 
 # Bath light always on, mainly used in shower
 # As light will be turned on by generic turn of
