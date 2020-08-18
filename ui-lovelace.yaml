@@ -13,6 +13,8 @@ views:
           - binary_sensor.door_window_sensor_158d000228601e
 #          - binary_sensor.door_window_sensor_158d00022bf88d
           - binary_sensor.door_window_sensor_158d00022c3a10
+          - binary_sensor.0x00158d0003542f22_lock
+          - binary_sensor.0x00158d0003542f22_lock_reverse
         state_filter:
           - 'on'
         card:

@@ -1,3 +1,4 @@
+# xiaomi sensors
 binary_sensor.door_window_sensor_158d000228601e:
   friendly_name: 厕所窗户
 binary_sensor.door_window_sensor_158d000228600a:
@@ -8,14 +9,19 @@ binary_sensor.door_window_sensor_158d00022bf88d:
   friendly_name: 浴室门
 binary_sensor.door_window_sensor_158d000224b01c:
   friendly_name: 前门
-
 light.gateway_light_34ce00838c96:
   friendly_name: xiaomi
   google_assistant: false
-
 sensor.illumination_34ce00838c96:
   friendly_name: 小米光线感应器
 
+# smart lock
+binary_sensor.0x00158d0003542f22_lock:
+  friendly_name: 大门锁
+binary_sensor.0x00158d0003542f22_lock_reverse:
+  friendly_name: 大门反锁
+
+# temp/humidity sensors
 sensor.humidity_xiaoxi:
   friendly_name: 小兮房间湿度
 sensor.humidity_xiaoxin:
