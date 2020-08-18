@@ -74,3 +74,7 @@ timer: !include timers.yaml
 group: !include groups.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
+
+# customize entity IDs
+homeassistant:
+  customize: !include customize.yaml

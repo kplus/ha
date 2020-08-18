@@ -1,0 +1,27 @@
+binary_sensor.door_window_sensor_158d000228601e:
+  friendly_name: 厕所窗户
+binary_sensor.door_window_sensor_158d000228600a:
+  friendly_name: 阁楼
+binary_sensor.door_window_sensor_158d00022c3a10:
+  friendly_name: 浴室窗户
+binary_sensor.door_window_sensor_158d00022bf88d:
+  friendly_name: 浴室门
+binary_sensor.door_window_sensor_158d000224b01c:
+  friendly_name: 前门
+
+light.gateway_light_34ce00838c96:
+  friendly_name: xiaomi
+  google_assistant: false
+
+sensor.illumination_34ce00838c96:
+  friendly_name: 小米光线感应器
+
+sensor.humidity_xiaoxi:
+  friendly_name: 小兮房间湿度
+sensor.humidity_xiaoxin:
+  friendly_name: 小心房间湿度
+sensor.temp_xiaoxi:
+  friendly_name: 小兮房间温度
+sensor.temp_xiaoxin:
+  friendly_name: 小心房间温度
+
