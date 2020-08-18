@@ -5,6 +5,19 @@ views:
       - type:  weather-forecast
         entity: weather.perry
         secondary_info_attribute: humidity
+      - type: iframe
+        url: https://embed.windy.com/
+        aspect_ratio: 50%
+      - type: gauge
+        min: 0
+        max: 100
+        severity:
+          green: 80
+          yellow: 50
+          red: 0
+        theme: default
+        entity: sensor.speedtest_download
+        name: 网速
       - type: entity-filter
         entities:
           - light.loft
@@ -20,19 +33,6 @@ views:
         card:
           title: 注意
           show_header_toggle: false
-      - type: gauge
-        min: 0
-        max: 100
-        severity:
-          green: 80
-          yellow: 50
-          red: 0
-        theme: default
-        entity: sensor.speedtest_download
-        name: 网速
-      - type: iframe
-        url: https://embed.windy.com/
-        aspect_ratio: 50%
       - type: entities
         entities:
           - light.kitchen
