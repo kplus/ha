@@ -77,20 +77,20 @@
     - service: light.turn_off
       data_template:
         entity_id: >
-          {% if is_state("light.hall", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.hall.last_changed)) > 1200) %}
-            light.hall
+          {% if is_state("light.toilet", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.toilet.last_changed)) > 1200) %}
+            light.toilet
           {% elif is_state("light.playroom", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.playroom.last_changed)) > 1200) %}
             light.playroom
-          {% elif is_state("light.toilet", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.toilet.last_changed)) > 1200) %}
-            light.toilet
+          {% elif is_state("light.bath", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.bath.last_changed)) > 1200) %}
+            light.bath
           {% elif is_state("light.dining", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.dining.last_changed)) > 1200) %}
             light.dining
           {% elif is_state("light.kitchen", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.kitchen.last_changed)) > 1200) %}
             light.kitchen
-          {% elif is_state("light.bath", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.bath.last_changed)) > 1200) %}
-            light.bath
           {% elif is_state("light.living_room", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.living_room.last_changed)) > 1200) %}
             light.living_room
+          {% elif is_state("light.hall", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.hall.last_changed)) > 1200) %}
+            light.hall
           {% elif is_state("light.loft", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.loft.last_changed)) > 1200) %}
             light.loft
           {% endif %}
@@ -144,7 +144,7 @@
       entity_id: input_boolean.night_mode
   # In night, set night_mode every hour
   - condition: template
-    value_template: '{{ state_attr("sun.sun", "elevation") < -5 }}'
+    value_template: '{{ state_attr("sun.sun", "elevation") < 0 }}'
   - service: input_boolean.turn_on
     data:
       entity_id: input_boolean.night_mode
@@ -164,20 +164,20 @@
           {% endif %}
       data_template:
         entity_id: >
-          {% if (states("input_boolean.pir_landing") != states("input_boolean.night_mode")) and is_state("binary_sensor.landing", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.landing.last_changed)) > 1200) %}
-            input_boolean.pir_landing
+          {% if (states("input_boolean.pir_playroom") != states("input_boolean.night_mode")) and is_state("binary_sensor.playroom", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.playroom.last_changed)) > 1200) %}
+            input_boolean.pir_playroom
           {% elif (states("input_boolean.pir_bath") != states("input_boolean.night_mode")) and is_state("binary_sensor.bath", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.bath.last_changed)) > 1200) %}
             input_boolean.pir_bath
-          {% elif (states("input_boolean.pir_dining") != states("input_boolean.night_mode")) and is_state("binary_sensor.dining", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.dining.last_changed)) > 1200) %}
-            input_boolean.pir_dining
-          {% elif (states("input_boolean.pir_hall") != states("input_boolean.night_mode")) and is_state("binary_sensor.hall", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.hall.last_changed)) > 1200) %}
-            input_boolean.pir_hall
-          {% elif (states("input_boolean.pir_playroom") != states("input_boolean.night_mode")) and is_state("binary_sensor.playroom", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.playroom.last_changed)) > 1200) %}
-            input_boolean.pir_playroom
           {% elif (states("input_boolean.pir_toilet") != states("input_boolean.night_mode")) and is_state("binary_sensor.toilet", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.toilet.last_changed)) > 1200) %}
             input_boolean.pir_toilet
           {% elif (states("input_boolean.pir_kitchen") != states("input_boolean.night_mode")) and is_state("binary_sensor.kitchen", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.kitchen.last_changed)) > 1200) %}
             input_boolean.pir_kitchen
+          {% elif (states("input_boolean.pir_dining") != states("input_boolean.night_mode")) and is_state("binary_sensor.dining", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.dining.last_changed)) > 1200) %}
+            input_boolean.pir_dining
+          {% elif (states("input_boolean.pir_landing") != states("input_boolean.night_mode")) and is_state("binary_sensor.landing", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.landing.last_changed)) > 1200) %}
+            input_boolean.pir_landing
+          {% elif (states("input_boolean.pir_hall") != states("input_boolean.night_mode")) and is_state("binary_sensor.hall", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.hall.last_changed)) > 1200) %}
+            input_boolean.pir_hall
           {% elif (states("input_boolean.pir_living_room") != states("input_boolean.night_mode")) and is_state("binary_sensor.living_room", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.living_room.last_changed)) > 1200) %}
             input_boolean.pir_living_room
           {% endif %}
