@@ -59,6 +59,15 @@ camera:
     extra_arguments: -q:v 2 -s 900x600
     name: roof
 
+alarm_control_panel:
+  - platform: mqtt
+    name: alert
+    code: "1573"
+    payload_arm_home: "ARM_HOME"
+    payload_disarm: "DISARM"
+    state_topic: "homeassistant/alarm_control_panel/area1/state"
+    command_topic: "homeassistant/alarm_control_panel/area1/command"
+
 ## booleans to be used
 input_boolean: !include input_boolean.yaml
 ## sonoff lights
