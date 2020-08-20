@@ -188,3 +188,21 @@
   action:
     service: light.toggle
     entity_id: light.bedroom
+
+################################################################
+#
+#
+# Alarm notification
+# Send out notification to HA app when Alarm state changes
+#
+#
+################################################################
+- alias: Alarm notification
+  trigger:
+    platform: state
+    entity_id: alarm_control_panel.area1
+  action:
+    service: notify.mobile_app_terrys_iphone
+    data:
+      message: >
+        The alarm has been set to {{ states("alarm_control_panel.area1") }}
