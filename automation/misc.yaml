@@ -128,7 +128,7 @@
       {{ trigger.event.data.click_type in ['single', 'double'] }}
   action:
   - service: tts.google_translate_say
-    entity_id: media_player.kitchen_speaker
+    entity_id: media_player.family_room_speaker
     data:
       message: '有客人到'
   - service: light.turn_on
