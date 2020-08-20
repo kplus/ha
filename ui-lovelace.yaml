@@ -2,6 +2,14 @@ title: Home
 views:
 # first page
   - cards:
+      - type: button
+        name: Set Alert Mode
+        icon: "mdi:home-lock"
+        tap_action:
+          action: call-service
+          confirmation:
+            text: Sure to set alarm?
+          service: script.into_alert
       - type: alarm-panel
         entity: alarm_control_panel.alert
         name: 警报

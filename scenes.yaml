@@ -1,0 +1,8 @@
+  - name: Alert
+    entities:
+      automation.check_pir: 'off'
+      group.home_lights: 'off'
+      group.pir: 'off'
+  - name: Normal
+    entities:
+      automation.check_pir: 'on'
