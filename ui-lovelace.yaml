@@ -3,18 +3,15 @@ views:
 # first page
   - cards:
       - type: button
-        name: Set Alert Mode
-        icon: "mdi:home-lock"
+        name: Click to Enter Alert Mode
+        icon: "mdi:shield-home-outline"
+        entity: alarm_control_panel.area1
+        show_state: true
         tap_action:
           action: call-service
           confirmation:
-            text: Sure to set alarm?
+            text: "Sure to set alarm?"
           service: script.into_alert
-      - type: alarm-panel
-        entity: alarm_control_panel.alert
-        name: 警报
-        states:
-          - arm_home
       - type:  weather-forecast
         entity: weather.perry
         secondary_info_attribute: humidity

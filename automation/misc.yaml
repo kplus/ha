@@ -198,11 +198,12 @@
 #
 ################################################################
 - alias: Alarm notification
+  initial_state: 'off'
   trigger:
     platform: state
     entity_id: alarm_control_panel.area1
   action:
-    service: notify.mobile_app_terrys_iphone
+    service: notify.ALL_DEVICES
     data:
       message: >
         The alarm has been set to {{ states("alarm_control_panel.area1") }}
@@ -212,7 +213,7 @@
 #
 # Auto arm/disarm Alarm
 # Set Alarm when there is nobody at home
-# There will be a roughly 4 mins delay of device tracker to
+# There will be a roughly 5-10 mins delay of device tracker to
 # notice people is not in, but people get connected will be
 # noticed immdiately
 #
@@ -229,7 +230,7 @@
     state: "disarmed"
   action:
     - service: script.into_alert
-    - service: notify.mobile_app_terrys_iphone
+    - service: notify.ALL_DEVICES
       data:
         title: "Alarm Warning!"
         message: "Nobody is at home and the alarm is not set. Homeassistant will automatically arm it unless you cancel it manually."
@@ -244,7 +245,9 @@
 - alias: Auto disarm
   trigger:
     platform: state
-    entity_id: group.people_at_home
+    entity_id:
+      - device_tracker.cens_iphone_2
+      - device_tracker.terrys_iphone_2
     to: "home"
   condition:
     condition: state
@@ -255,3 +258,5 @@
   action:
     - service: alarm_control_panel.alarm_disarm
       entity_id: alarm_control_panel.area1
+    - service: scene.turn_on
+      entity_id: scene.Normal

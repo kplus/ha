@@ -68,6 +68,7 @@ alarm_control_panel:
     state_topic: "homeassistant/alarm_control_panel/area1/state"
     command_topic: "homeassistant/alarm_control_panel/area1/command"
 
+# actionable notification needs this
 ios:
   push:
     categories:
@@ -83,6 +84,14 @@ ios:
             title: 'Disarm'
             activationMode: 'background'
             destructive: false
+
+# the group notify is different from group syntex
+notify:
+  name: ALL_DEVICES
+  platform: group
+  services:
+    - service: mobile_app_cens_iphone
+    - service: mobile_app_terrys_iphone
 
 ## booleans to be used
 input_boolean: !include input_boolean.yaml
