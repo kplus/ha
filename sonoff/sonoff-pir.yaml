@@ -70,6 +70,79 @@
     payload_off: "OFF"
     device_class: motion
 
+# texecom sensors
+  - platform: mqtt
+    name: "alarm_study_pir"
+    state_topic: "homeassistant/binary_sensor/study_pir/state"
+    qos: 1
+    payload_on: "True"
+    payload_off: "False"
+    device_class: motion
+
+  - platform: mqtt
+    name: "alarm_kitchen_pir"
+    state_topic: "homeassistant/binary_sensor/kitchen_pir/state"
+    qos: 1
+    payload_on: "True"
+    payload_off: "False"
+    device_class: motion
+
+  - platform: mqtt
+    name: "alarm_living_hall_pir"
+    state_topic: "homeassistant/binary_sensor/living_hall_pir/state"
+    qos: 1
+    payload_on: "True"
+    payload_off: "False"
+    device_class: motion
+
+  - platform: mqtt
+    name: "alarm_loft_pir"
+    state_topic: "homeassistant/binary_sensor/loft_pir/state"
+    qos: 1
+    payload_on: "True"
+    payload_off: "False"
+    device_class: motion
+
+  - platform: mqtt
+    name: "alarm_stair_pir"
+    state_topic: "homeassistant/binary_sensor/stair_pir/state"
+    qos: 1
+    payload_on: "True"
+    payload_off: "False"
+    device_class: motion
+
+  - platform: mqtt
+    name: "alarm_toilet_pir"
+    state_topic: "homeassistant/binary_sensor/toilet_pir/state"
+    qos: 1
+    payload_on: "True"
+    payload_off: "False"
+    device_class: motion
+
+  - platform: mqtt
+    name: "alarm_kitchen_shock"
+    state_topic: "homeassistant/binary_sensor/kitchen_shock/state"
+    qos: 1
+    payload_on: "True"
+    payload_off: "False"
+    device_class: motion
+
+  - platform: mqtt
+    name: "alarm_bath_window"
+    state_topic: "homeassistant/binary_sensor/bath_window/state"
+    qos: 1
+    payload_on: "True"
+    payload_off: "False"
+    device_class: motion
+
+  - platform: mqtt
+    name: "alarm_bedroom_window"
+    state_topic: "homeassistant/binary_sensor/bedroom_window/state"
+    qos: 1
+    payload_on: "True"
+    payload_off: "False"
+    device_class: motion
+
 # combine 2 kitchen sensor into 1
   - platform: template
     sensors:
