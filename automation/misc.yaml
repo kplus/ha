@@ -163,6 +163,7 @@
 #
 # Xiaomi Wireless Button
 # Toggle Bath Light on double press
+# Toggle Bedroom light on single press
 #
 #
 ################################################################
@@ -177,3 +178,13 @@
     service: light.toggle
     entity_id: light.bath
 
+- alias: Toggle bedroom light
+  trigger:
+    platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: binary_sensor.switch_158d0001f37855
+      click_type: single
+  action:
+    service: light.toggle
+    entity_id: light.bedroom
