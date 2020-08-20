@@ -206,3 +206,52 @@
     data:
       message: >
         The alarm has been set to {{ states("alarm_control_panel.area1") }}
+
+################################################################
+#
+#
+# Auto arm/disarm Alarm
+# Set Alarm when there is nobody at home
+# There will be a roughly 4 mins delay of device tracker to
+# notice people is not in, but people get connected will be
+# noticed immdiately
+#
+#
+################################################################
+- alias: Auto arm
+  trigger:
+    platform: state
+    entity_id: group.people_at_home
+    to: "not_home"
+  condition:
+    condition: state
+    entity_id: alarm_control_panel.area1
+    state: "disarmed"
+  action:
+    - service: script.into_alert
+    - service: notify.mobile_app_terrys_iphone
+      data:
+        title: "Alarm Warning!"
+        message: "Nobody is at home and the alarm is not set. Homeassistant will automatically arm it unless you cancel it manually."
+        data:
+          push:
+            category: "alarm"
+            sound:
+              name: default
+              critical: 1
+              volume: 1.0
+
+- alias: Auto disarm
+  trigger:
+    platform: state
+    entity_id: group.people_at_home
+    to: "home"
+  condition:
+    condition: state
+    entity_id: alarm_control_panel.area1
+    state:
+      - "armed_away"
+      - "armed_home"
+  action:
+    - service: alarm_control_panel.alarm_disarm
+      entity_id: alarm_control_panel.area1

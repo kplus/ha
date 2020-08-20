@@ -23,3 +23,9 @@
       - light.loft
       - light.playroom
       - light.toilet
+
+  people_at_home:
+    name: People
+    entities:
+      - device_tracker.cens_iphone_2
+      - device_tracker.terrys_iphone_2

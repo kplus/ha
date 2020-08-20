@@ -68,6 +68,22 @@ alarm_control_panel:
     state_topic: "homeassistant/alarm_control_panel/area1/state"
     command_topic: "homeassistant/alarm_control_panel/area1/command"
 
+ios:
+  push:
+    categories:
+      - name: Alarm
+        identifier: 'alarm'
+        actions:
+          - identifier: 'ARM_ALARM'
+            title: 'Arm'
+            activationMode: 'foreground'
+            authenticationRequired: true
+            destructive: true
+          - identifier: 'DISARM_ALARM'
+            title: 'Disarm'
+            activationMode: 'background'
+            destructive: false
+
 ## booleans to be used
 input_boolean: !include input_boolean.yaml
 ## sonoff lights
