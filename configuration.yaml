@@ -113,3 +113,6 @@ scene: !include scenes.yaml
 # customize entity IDs
 homeassistant:
   customize: !include customize.yaml
+
+#frontend: !include frontend.yaml
+panel_custom: !include panel_custom.yaml

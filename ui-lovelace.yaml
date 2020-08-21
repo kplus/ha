@@ -3,7 +3,7 @@ views:
 # first page
   - cards:
       - type: button
-        name: Click to Enter Alert Mode
+        name: Alert Mode
         icon: "mdi:shield-home-outline"
         entity: alarm_control_panel.area1
         show_state: true

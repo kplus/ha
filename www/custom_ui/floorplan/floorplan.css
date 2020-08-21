@@ -92,12 +92,21 @@ svg, svg * {
 
 /* Light */
 
+/* replace to fill area
 .light-off {
   fill: #C3B7F4 !important;
 }
 
 .light-on {
   fill: #F8D2B9 !important;
+}
+*/
+.light-off {
+  fill-opacity: 0.7 !important;
+}
+
+.light-on {
+  fill-opacity: 0 !important;
 }
 
 /* Doorbell */
