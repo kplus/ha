@@ -258,5 +258,12 @@
   action:
     - service: alarm_control_panel.alarm_disarm
       entity_id: alarm_control_panel.area1
+
+- alias: Normal scene after disarm
+  trigger:
+    platform: state
+    entity_id: alarm_control_panel.area1
+    to: 'disarmed'
+  action:
     - service: scene.turn_on
       entity_id: scene.Normal
