@@ -61,10 +61,10 @@ views:
         title: 移动监测
       - type: gauge
         min: 0
-        max: 15
+        max: 60
         severity:
-          green: 10
-          yellow: 5
+          green: 50
+          yellow: 35
           red: 0
         theme: default
         entity: sensor.speedtest_download
