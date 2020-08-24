@@ -1,0 +1,8 @@
+  into_alert:
+    sequence:
+      - service: scene.turn_on
+        data:
+          entity_id: scene.Alert
+      - service: alarm_control_panel.alarm_arm_home
+        data:
+          entity_id: alarm_control_panel.area1

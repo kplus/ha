@@ -1,0 +1,8 @@
+  - name: Alert
+    entities:
+      automation.doorbell_notification: 'off'
+      group.home_lights: 'off'
+      group.pir: 'off'
+  - name: Normal
+    entities:
+      automation.doorbell_notification: 'on'

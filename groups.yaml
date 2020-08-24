@@ -1,0 +1,31 @@
+  pir:
+    name: PIRs
+    entities:
+      - input_boolean.pir_hall
+      - input_boolean.pir_living_room
+      - input_boolean.pir_playroom
+      - input_boolean.pir_kitchen
+      - input_boolean.pir_dining
+      - input_boolean.pir_toilet
+      - input_boolean.pir_landing
+
+  home_lights:
+    name: Lights
+    entities:
+      - light.bath
+      - light.gateway_light_34ce00838c96
+      - light.bedroom
+      - light.dining
+      - light.hall
+      - light.kitchen
+      - light.landing
+      - light.living_room
+      - light.loft
+      - light.playroom
+      - light.toilet
+
+  people_at_home:
+    name: People
+    entities:
+      - device_tracker.cens_iphone_2
+      - device_tracker.terrys_iphone_2

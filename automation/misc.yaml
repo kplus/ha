@@ -128,7 +128,7 @@
       {{ trigger.event.data.click_type in ['single', 'double'] }}
   action:
   - service: tts.google_translate_say
-    entity_id: media_player.kitchen_speaker
+    entity_id: media_player.family_room_speaker
     data:
       message: '有客人到'
   - service: light.turn_on
@@ -163,6 +163,7 @@
 #
 # Xiaomi Wireless Button
 # Toggle Bath Light on double press
+# Toggle Bedroom light on single press
 #
 #
 ################################################################
@@ -177,3 +178,92 @@
     service: light.toggle
     entity_id: light.bath
 
+- alias: Toggle bedroom light
+  trigger:
+    platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: binary_sensor.switch_158d0001f37855
+      click_type: single
+  action:
+    service: light.toggle
+    entity_id: light.bedroom
+
+################################################################
+#
+#
+# Alarm notification
+# Send out notification to HA app when Alarm state changes
+#
+#
+################################################################
+- alias: Alarm notification
+  initial_state: 'off'
+  trigger:
+    platform: state
+    entity_id: alarm_control_panel.area1
+  action:
+    service: notify.ALL_DEVICES
+    data:
+      message: >
+        The alarm has been set to {{ states("alarm_control_panel.area1") }}
+
+################################################################
+#
+#
+# Auto arm/disarm Alarm
+# Set Alarm when there is nobody at home
+# There will be a roughly 5-10 mins delay of device tracker to
+# notice people is not in, but people get connected will be
+# noticed immdiately
+#
+#
+################################################################
+- alias: Auto arm
+  trigger:
+    platform: state
+    entity_id: group.people_at_home
+    to: "not_home"
+  condition:
+    condition: state
+    entity_id: alarm_control_panel.area1
+    state: "disarmed"
+  action:
+    - service: script.into_alert
+    - service: notify.ALL_DEVICES
+      data:
+        title: "Alarm Warning!"
+        message: "Nobody is at home and the alarm is not set. Homeassistant will automatically arm it unless you cancel it manually."
+        data:
+          push:
+            category: "alarm"
+            sound:
+              name: default
+              critical: 1
+              volume: 1.0
+
+- alias: Auto disarm
+  trigger:
+    platform: state
+    entity_id:
+      - device_tracker.cens_iphone_2
+      - device_tracker.terrys_iphone_2
+    to: "home"
+  condition:
+    condition: state
+    entity_id: alarm_control_panel.area1
+    state:
+      - "armed_away"
+      - "armed_home"
+  action:
+    - service: alarm_control_panel.alarm_disarm
+      entity_id: alarm_control_panel.area1
+
+- alias: Normal scene after disarm
+  trigger:
+    platform: state
+    entity_id: alarm_control_panel.area1
+    to: 'disarmed'
+  action:
+    - service: scene.turn_on
+      entity_id: scene.Normal

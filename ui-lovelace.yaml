@@ -2,11 +2,16 @@ title: Home
 views:
 # first page
   - cards:
-      - type: alarm-panel
+      - type: button
+        name: Alert Mode
+        icon: "mdi:shield-home-outline"
         entity: alarm_control_panel.area1
-        name: Alarm
-        states:
-          - arm_home
+        show_state: true
+        tap_action:
+          action: call-service
+          confirmation:
+            text: "Sure to set alarm?"
+          service: script.into_alert
       - type:  weather-forecast
         entity: weather.perry
         secondary_info_attribute: humidity
@@ -56,10 +61,10 @@ views:
         title: 移动监测
       - type: gauge
         min: 0
-        max: 15
+        max: 60
         severity:
-          green: 10
-          yellow: 5
+          green: 50
+          yellow: 35
           red: 0
         theme: default
         entity: sensor.speedtest_download
@@ -73,7 +78,27 @@ views:
       - sensor.humidity_xiaoxin
     path: default_view
     title: Home
-# second page
+# alarm page
+  - cards:
+      - type: alarm-panel
+        entity: alarm_control_panel.alert
+        name: 警报
+        states:
+          - arm_home
+      - type: entities
+        entities:
+          - binary_sensor.alarm_bath_window
+          - binary_sensor.alarm_bedroom_window
+          - binary_sensor.alarm_kitchen_pir
+          - binary_sensor.alarm_kitchen_shock
+          - binary_sensor.alarm_living_hall_pir
+          - binary_sensor.alarm_loft_pir
+          - binary_sensor.alarm_stair_pir
+          - binary_sensor.alarm_study_pir
+          - binary_sensor.alarm_toilet_pir
+    badges: []
+    title: Alarm
+# CCTV page
   - cards:
       - type: picture-entity
         entity: camera.front
@@ -86,7 +111,7 @@ views:
         camera_view: live
     badges: []
     title: CCTV
-# third page
+# media page
   - cards:
       - type: media-control
         entity: media_player.lg_tv_remote
