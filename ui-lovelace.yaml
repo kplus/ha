@@ -33,6 +33,27 @@ views:
         card:
           title: 注意
           show_header_toggle: false
+      - type: gauge
+        min: 0
+        max: 60
+        severity:
+          green: 50
+          yellow: 35
+          red: 0
+        theme: default
+        entity: sensor.speedtest_download
+        name: 网速
+    badges:
+      - device_tracker.terrys_iphone_2
+      - device_tracker.cens_iphone_2
+      - sensor.temp_xiaoxi
+      - sensor.humidity_xiaoxi
+      - sensor.temp_xiaoxin
+      - sensor.humidity_xiaoxin
+    path: default_view
+    title: Home
+# lights page
+  - cards:
       - type: entities
         entities:
           - light.kitchen
@@ -59,25 +80,8 @@ views:
           - input_boolean.pir_landing
 #          - input_boolean.night_mode
         title: 移动监测
-      - type: gauge
-        min: 0
-        max: 60
-        severity:
-          green: 50
-          yellow: 35
-          red: 0
-        theme: default
-        entity: sensor.speedtest_download
-        name: 网速
-    badges:
-      - device_tracker.terrys_iphone_2
-      - device_tracker.cens_iphone_2
-      - sensor.temp_xiaoxi
-      - sensor.humidity_xiaoxi
-      - sensor.temp_xiaoxin
-      - sensor.humidity_xiaoxin
-    path: default_view
-    title: Home
+    badges: []
+    title: Lights
 # alarm page
   - cards:
       - type: alarm-panel
