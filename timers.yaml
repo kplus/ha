@@ -1,13 +1,13 @@
   short_playroom:
-    duration: '00:00:20'
+    duration: '00:00:15'
   short_kitchen:
-    duration: '00:00:20'
+    duration: '00:00:15'
   short_dining:
-    duration: '00:00:20'
+    duration: '00:00:15'
   short_bath:
-    duration: '00:00:20'
+    duration: '00:00:15'
   short_toilet:
-    duration: '00:00:20'
+    duration: '00:00:15'
   short_living_room:
     duration: '00:00:20'
   long_kitchen:
