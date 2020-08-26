@@ -8,6 +8,7 @@
       - input_boolean.pir_dining
       - input_boolean.pir_toilet
       - input_boolean.pir_landing
+      - input_boolean.pir_bath
 
   home_lights:
     name: Lights
