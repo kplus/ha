@@ -54,8 +54,8 @@ views:
         entity: sensor.speedtest_download
         name: 网速
     badges:
-      - device_tracker.terrys_iphone_2
-      - device_tracker.cens_iphone_2
+      - device_tracker.terrys_iphone_3
+      - device_tracker.vivo_x50_2
       - sensor.temp_xiaoxi
       - sensor.humidity_xiaoxi
       - sensor.temp_xiaoxin
@@ -122,6 +122,9 @@ views:
         camera_view: live
       - type: picture-entity
         entity: camera.roof
+        camera_view: live
+      - type: picture-entity
+        entity: camera.entrance
         camera_view: live
     badges: []
     title: CCTV

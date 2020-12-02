@@ -8,7 +8,6 @@
       - input_boolean.pir_dining
       - input_boolean.pir_toilet
       - input_boolean.pir_landing
-      - input_boolean.pir_bath
 
   home_lights:
     name: Lights
@@ -28,5 +27,5 @@
   people_at_home:
     name: People
     entities:
-      - device_tracker.cens_iphone_2
-      - device_tracker.terrys_iphone_2
+      - device_tracker.terrys_iphone_3
+      - device_tracker.vivo_x50_2

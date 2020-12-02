@@ -193,7 +193,7 @@
       - binary_sensor.kitchen_sonoff
       - binary_sensor.dining
       - binary_sensor.bath
-      - binary_sensor.playroom
+#      - binary_sensor.playroom
       - binary_sensor.toilet
       - binary_sensor.living_room
 #      - binary_sensor.hall
@@ -268,8 +268,8 @@
       value_template: '{{ is_state("timer.short_dining", "idle") }}'
     - platform: template
       value_template: '{{ is_state("timer.short_kitchen", "idle") }}'
-    - platform: template
-      value_template: '{{ is_state("timer.short_playroom", "idle") }}'
+#    - platform: template
+#      value_template: '{{ is_state("timer.short_playroom", "idle") }}'
     - platform: template
       value_template: '{{ is_state("timer.short_toilet", "idle") }}'
     - platform: template
