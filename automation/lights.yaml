@@ -79,8 +79,6 @@
         entity_id: >
           {% if is_state("light.toilet", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.toilet.last_changed)) > 1200) %}
             light.toilet
-          {% elif is_state("light.playroom", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.playroom.last_changed)) > 1200) %}
-            light.playroom
           {% elif is_state("light.bath", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.bath.last_changed)) > 1200) %}
             light.bath
           {% elif is_state("light.dining", "on") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.dining.last_changed)) > 1200) %}
@@ -165,9 +163,7 @@
           {% endif %}
       data_template:
         entity_id: >
-          {% if (states("input_boolean.pir_playroom") != states("input_boolean.night_mode")) and is_state("binary_sensor.playroom", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.playroom.last_changed)) > 1200) %}
-            input_boolean.pir_playroom
-          {% elif (states("input_boolean.pir_bath") != states("input_boolean.night_mode")) and is_state("binary_sensor.bath", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.bath.last_changed)) > 1200) %}
+          {% if (states("input_boolean.pir_bath") != states("input_boolean.night_mode")) and is_state("binary_sensor.bath", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.bath.last_changed)) > 1200) %}
             input_boolean.pir_bath
           {% elif (states("input_boolean.pir_toilet") != states("input_boolean.night_mode")) and is_state("binary_sensor.toilet", "off") and ((as_timestamp(now())-as_timestamp(states.binary_sensor.toilet.last_changed)) > 1200) %}
             input_boolean.pir_toilet
@@ -193,7 +189,6 @@
       - binary_sensor.kitchen_sonoff
       - binary_sensor.dining
       - binary_sensor.bath
-#      - binary_sensor.playroom
       - binary_sensor.toilet
       - binary_sensor.living_room
 #      - binary_sensor.hall
@@ -221,7 +216,6 @@
       - binary_sensor.kitchen_sonoff
       - binary_sensor.dining
       - binary_sensor.bath
-      - binary_sensor.playroom
       - binary_sensor.toilet
       - binary_sensor.living_room
 #      - binary_sensor.hall
@@ -247,7 +241,6 @@
       - light.kitchen
       - light.dining
       - light.bath
-      - light.playroom
       - light.toilet
       - light.living_room
 #      - light.hall
@@ -268,8 +261,6 @@
       value_template: '{{ is_state("timer.short_dining", "idle") }}'
     - platform: template
       value_template: '{{ is_state("timer.short_kitchen", "idle") }}'
-#    - platform: template
-#      value_template: '{{ is_state("timer.short_playroom", "idle") }}'
     - platform: template
       value_template: '{{ is_state("timer.short_toilet", "idle") }}'
     - platform: template
@@ -297,8 +288,6 @@
     - platform: template
       value_template: '{{ is_state("timer.short_kitchen", "idle") }}'
     - platform: template
-      value_template: '{{ is_state("timer.short_playroom", "idle") }}'
-    - platform: template
       value_template: '{{ is_state("timer.short_toilet", "idle") }}'
     - platform: template
       value_template: '{{ is_state("timer.short_dining", "idle") }}'
@@ -322,7 +311,6 @@
       - light.kitchen
       - light.dining
       - light.bath
-      - light.playroom
       - light.toilet
       - light.living_room
 #      - light.hall
@@ -357,8 +345,6 @@
       value_template: '{{ is_state("timer.long_dining", "idle") }}'
     - platform: template
       value_template: '{{ is_state("timer.long_kitchen", "idle") }}'
-    - platform: template
-      value_template: '{{ is_state("timer.long_playroom", "idle") }}'
     - platform: template
       value_template: '{{ is_state("timer.long_toilet", "idle") }}'
     - platform: template
