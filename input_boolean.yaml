@@ -3,8 +3,6 @@
     name: 大门口移动监测
   pir_living_room:
     name: 客厅移动监测
-  pir_playroom:
-    name: 玩具房移动监测
   pir_kitchen:
     name: 厨房移动监测
   pir_dining:

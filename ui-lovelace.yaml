@@ -82,7 +82,6 @@ views:
         entities:
           - input_boolean.pir_hall
           - input_boolean.pir_living_room
-          - input_boolean.pir_playroom
           - input_boolean.pir_kitchen
           - input_boolean.pir_dining
           - input_boolean.pir_toilet

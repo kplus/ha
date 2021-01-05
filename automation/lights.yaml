@@ -119,12 +119,11 @@
 # and set it to be same as night_mode if idle for 20 mintues.
 # 2. PIR on triggers. If input_boolean is on and light is off, turn light
 # on. If light is on already, update timer.
-# 3. Set short timer whenever light turns on
-# 4. Short timeout handling. If PIR has been off for long, turn off light;
+# 3. Set long timer whenever light turns on
 # otherwise start long timeout.
-# 5. Delay automation when light is off(combine with function 4, this case
+# 4. Delay automation when light is off(combine with function 4, this case
 # is limited to manually off only), also cancel both timers
-# 6. Turn off light when long timeout and input_boolean is set
+# 5. Turn off light when long timeout and input_boolean is set
 #
 ###########################################################################
 # Function 1
@@ -233,7 +232,7 @@
           {% endif %}
 
 # function 3
-- alias: Start short timers
+- alias: Start long timers
   initial_state: 'on'
   trigger:
     platform: state
@@ -248,60 +247,10 @@
   action:
     - service: timer.start
       data_template:
-        entity_id: '{{ "timer.short_" + trigger.entity_id.split(".")[1] }}'
+        entity_id: '{{ "timer.long_" + trigger.entity_id.split(".")[1] }}'
+
 
 # function 4
-# cannot use event trigger as not able to fetch trigger information
-- alias: Short timeout lights off
-  initial_state: 'on'
-  trigger:
-    - platform: template
-      value_template: '{{ is_state("timer.short_bath", "idle") }}'
-    - platform: template
-      value_template: '{{ is_state("timer.short_dining", "idle") }}'
-    - platform: template
-      value_template: '{{ is_state("timer.short_kitchen", "idle") }}'
-    - platform: template
-      value_template: '{{ is_state("timer.short_toilet", "idle") }}'
-    - platform: template
-      value_template: '{{ is_state("timer.short_dining", "idle") }}'
-  condition:
-    condition: template
-    value_template: >
-      {% set name = trigger.entity_id.split(".")[1].split("_")[1] %}
-      {{ is_state("light." + name, "on") and is_state("binary_sensor." + name, "off") and (as_timestamp(now())-as_timestamp(states.binary_sensor[name].last_changed) > 7) }}
-  action:
-    - service: light.turn_off
-      data_template:
-        entity_id: '{{ "light." + trigger.entity_id.split(".")[1].split("_")[1] }}'
-    - service: input_boolean.turn_on
-      data_template:
-        entity_id: '{{ "input_boolean.pir_" + trigger.entity_id.split(".")[1].split("_")[1] }}'
-
-- alias: Short timeout to long timeout
-  initial_state: 'on'
-  trigger:
-    - platform: template
-      value_template: '{{ is_state("timer.short_bath", "idle") }}'
-    - platform: template
-      value_template: '{{ is_state("timer.short_dining", "idle") }}'
-    - platform: template
-      value_template: '{{ is_state("timer.short_kitchen", "idle") }}'
-    - platform: template
-      value_template: '{{ is_state("timer.short_toilet", "idle") }}'
-    - platform: template
-      value_template: '{{ is_state("timer.short_dining", "idle") }}'
-  condition:
-    condition: template
-    value_template: >
-      {% set name = trigger.entity_id.split(".")[1].split("_")[1] %}
-      {{ is_state("light." + name, "on") and (is_state("binary_sensor." + name, "on") or (as_timestamp(now())-as_timestamp(states.binary_sensor[name].last_changed) < 7)) }}
-  action:
-    - service: timer.start
-      data_template:
-        entity_id: '{{ "timer.long_" + trigger.entity_id.split(".")[1].split("_")[1] }}'
-
-# function 5
 - alias: Light off delays
   initial_state: 'on'
   mode: parallel
@@ -318,9 +267,6 @@
   action:
     - service: timer.cancel
       data_template:
-        entity_id: '{{ "timer.short_" + trigger.entity_id.split(".")[1].split("_")[0] }}'
-    - service: timer.cancel
-      data_template:
         entity_id: '{{ "timer.long_" + trigger.entity_id.split(".")[1].split("_")[0] }}'
     - service: input_boolean.turn_off
       data_template:
@@ -335,7 +281,7 @@
       data_template:
         entity_id: '{{ "input_boolean.pir_" + trigger.entity_id.split(".")[1].split("_")[0] }}'
 
-# function 6
+# function 5
 - alias: Long timeout lights off
   initial_state: 'on'
   trigger:
