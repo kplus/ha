@@ -55,7 +55,7 @@ views:
         name: 网速
     badges:
       - device_tracker.terrys_iphone
-      - device_tracker.vivo_x50_2
+      - device_tracker.unifi_08_fa_79_38_90_df_default
       - sensor.temp_xiaoxi
       - sensor.humidity_xiaoxi
       - sensor.temp_xiaoxin
