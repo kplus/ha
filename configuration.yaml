@@ -94,8 +94,8 @@ notify:
   name: ALL_DEVICES
   platform: group
   services:
-    - service: mobile_app_cens_iphone
-    - service: mobile_app_terrys_iphone
+    - service: mobile_app_ceci
+    - service: mobile_app_terry
 
 ## booleans to be used
 input_boolean: !include input_boolean.yaml

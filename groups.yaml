@@ -26,5 +26,5 @@
   people_at_home:
     name: People
     entities:
-      - device_tracker.terrys_iphone
+      - device_tracker.terrys_iphone_2
       - device_tracker.unifi_08_fa_79_38_90_df_default

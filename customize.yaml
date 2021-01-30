@@ -32,7 +32,7 @@ sensor.temp_xiaoxin:
   friendly_name: 小心房间温度
 
 # people tracking
-device_tracker.vivo_x50_2:
+device_tracker.unifi_08_fa_79_38_90_df_default:
   friendly_name: Ceci
-device_tracker.terrys_iphone_3:
+device_tracker.terrys_iphone_2:
   friendly_name: Terry
