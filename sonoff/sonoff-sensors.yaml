@@ -1,21 +1,17 @@
-  - platform: mqtt
-    name: "temp xiaoxin"
-    state_topic: "tele/sonoff-loft/SENSOR"
-    value_template: "{{ value_json['AM2301-01'].Temperature }}"
-    unit_of_measurement: "°C"
+    - name: "temp xiaoxin"
+      state_topic: "tele/sonoff-loft/SENSOR"
+      value_template: "{{ value_json['AM2301-01'].Temperature }}"
+      unit_of_measurement: "°C"
 
-  - platform: mqtt
-    name: "humidity xiaoxin"
-    state_topic: "tele/sonoff-loft/SENSOR"
-    value_template: "{{ value_json['AM2301-01'].Humidity }}"
+    - name: "humidity xiaoxin"
+      state_topic: "tele/sonoff-loft/SENSOR"
+      value_template: "{{ value_json['AM2301-01'].Humidity }}"
 
-  - platform: mqtt
-    name: "temp xiaoxi"
-    state_topic: "tele/sonoff-loft/SENSOR"
-    value_template: "{{ value_json['AM2301-14'].Temperature }}"
-    unit_of_measurement: "°C"
+    - name: "temp xiaoxi"
+      state_topic: "tele/sonoff-loft/SENSOR"
+      value_template: "{{ value_json['AM2301-14'].Temperature }}"
+      unit_of_measurement: "°C"
 
-  - platform: mqtt
-    name: "humidity xiaoxi"
-    state_topic: "tele/sonoff-loft/SENSOR"
-    value_template: "{{ value_json['AM2301-14'].Humidity }}"
+    - name: "humidity xiaoxi"
+      state_topic: "tele/sonoff-loft/SENSOR"
+      value_template: "{{ value_json['AM2301-14'].Humidity }}"

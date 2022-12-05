@@ -26,11 +26,19 @@ yeelight:
       name: Bedroom
 
 mqtt:
-  discovery: true
-  broker: 192.168.1.7
-  port: 2883
-  username: ha
-  password: smarthome
+  alarm_control_panel:
+    - state_topic: "homeassistant/alarm_control_panel/area1/state"
+      name: alert
+      code: "1573"
+      payload_arm_home: "ARM_HOME"
+      payload_disarm: "DISARM"
+      command_topic: "homeassistant/alarm_control_panel/area1/command"
+# sonoff lights
+  light: !include sonoff/sonoff-lights.yaml
+# sonoff sensors
+  sensor: !include sonoff/sonoff-sensors.yaml
+# sonoff + SR501 PIR
+  binary_sensor: !include sonoff/sonoff-pir.yaml
 
 homekit:
   auto_start: false
@@ -63,14 +71,6 @@ camera:
     extra_arguments: -q:v 2 -s 900x600
     name: entrance
 
-alarm_control_panel:
-  - platform: mqtt
-    name: alert
-    code: "1573"
-    payload_arm_home: "ARM_HOME"
-    payload_disarm: "DISARM"
-    state_topic: "homeassistant/alarm_control_panel/area1/state"
-    command_topic: "homeassistant/alarm_control_panel/area1/command"
 
 # actionable notification needs this
 ios:
@@ -99,12 +99,6 @@ notify:
 
 ## booleans to be used
 input_boolean: !include input_boolean.yaml
-## sonoff lights
-light: !include sonoff/sonoff-lights.yaml
-## sonoff sensors
-sensor: !include sonoff/sonoff-sensors.yaml
-## sonoff + SR501 PIR
-binary_sensor: !include sonoff/sonoff-pir.yaml
 ## automation folder
 automation: !include_dir_merge_list automation
 ## timer

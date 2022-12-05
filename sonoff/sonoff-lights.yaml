@@ -1,81 +1,72 @@
 # test mqtt sonoff switch
-  - platform: mqtt
-    name: "loft"
-    state_topic: "stat/sonoff-loft/POWER"
-    command_topic: "cmnd/sonoff-loft/POWER"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: true
+    - name: "loft"
+      state_topic: "stat/sonoff-loft/POWER"
+      command_topic: "cmnd/sonoff-loft/POWER"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      retain: true
 
-  - platform: mqtt
-    name: "hall"
-    state_topic: "stat/sonoff-hall/POWER1"
-    command_topic: "cmnd/sonoff-hall/POWER"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: true
+    - name: "hall"
+      state_topic: "stat/sonoff-hall/POWER1"
+      command_topic: "cmnd/sonoff-hall/POWER"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      retain: true
 
-  - platform: mqtt
-    name: "living_room"
-    state_topic: "stat/sonoff-living/POWER1"
-    command_topic: "cmnd/sonoff-living/POWER"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: true
+    - name: "living_room"
+      state_topic: "stat/sonoff-living/POWER1"
+      command_topic: "cmnd/sonoff-living/POWER"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      retain: true
 
-  - platform: mqtt
-    name: "kitchen"
-    state_topic: "stat/sonoff-kitchen/POWER1"
-    command_topic: "cmnd/sonoff-kitchen/POWER"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: true
+    - name: "kitchen"
+      state_topic: "stat/sonoff-kitchen/POWER1"
+      command_topic: "cmnd/sonoff-kitchen/POWER"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      retain: true
 
-  - platform: mqtt
-    name: "playroom"
-    state_topic: "stat/sonoff-play/POWER1"
-    command_topic: "cmnd/sonoff-play/POWER"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: true
+    - name: "playroom"
+      state_topic: "stat/sonoff-play/POWER1"
+      command_topic: "cmnd/sonoff-play/POWER"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      retain: true
 
-  - platform: mqtt
-    name: "dining"
-    state_topic: "stat/sonoff-dining/POWER1"
-    command_topic: "cmnd/sonoff-dining/POWER"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: true
+    - name: "dining"
+      state_topic: "stat/sonoff-dining/POWER1"
+      command_topic: "cmnd/sonoff-dining/POWER"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      retain: true
 
-  - platform: mqtt
-    name: "toilet"
-    state_topic: "stat/sonoff-toilet/POWER1"
-    command_topic: "cmnd/sonoff-toilet/POWER"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: true
+    - name: "toilet"
+      state_topic: "stat/sonoff-toilet/POWER1"
+      command_topic: "cmnd/sonoff-toilet/POWER"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      retain: true
 
-  - platform: mqtt
-    name: "bath"
-    state_topic: "stat/sonoff-bath/POWER1"
-    command_topic: "cmnd/sonoff-bath/POWER"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: true
+    - name: "bath"
+      state_topic: "stat/sonoff-bath/POWER1"
+      command_topic: "cmnd/sonoff-bath/POWER"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      retain: true
 
-  - platform: mqtt
-    name: "landing"
-    state_topic: "stat/sonoff-landing/POWER"
-    command_topic: "cmnd/sonoff-landing/POWER"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: true
+    - name: "landing"
+      state_topic: "stat/sonoff-landing/POWER"
+      command_topic: "cmnd/sonoff-landing/POWER"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      retain: true

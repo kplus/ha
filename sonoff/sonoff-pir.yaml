@@ -1,154 +1,136 @@
-  - platform: mqtt
-    name: "living_room"
-    state_topic: "stat/sonoff-living/POWER2"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    device_class: motion
+    - name: "living_room"
+      state_topic: "stat/sonoff-living/POWER2"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
 
-  - platform: mqtt
-    name: "hall"
-    state_topic: "stat/sonoff-hall/POWER2"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    device_class: motion
+    - name: "hall"
+      state_topic: "stat/sonoff-hall/POWER2"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
 
-  - platform: mqtt
-    name: "hall2"
-    state_topic: "stat/sonoff-hall2/POWER2"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    device_class: motion
+    - name: "hall2"
+      state_topic: "stat/sonoff-hall2/POWER2"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
 
-  - platform: mqtt
-    name: "kitchen_sonoff"
-    state_topic: "stat/sonoff-kitchen/POWER2"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    device_class: motion
+    - name: "kitchen_sonoff"
+      state_topic: "stat/sonoff-kitchen/POWER2"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
 
-  - platform: mqtt
-    name: "playroom"
-    state_topic: "stat/sonoff-play/POWER2"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    device_class: motion
+    - name: "playroom"
+      state_topic: "stat/sonoff-play/POWER2"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
 
-  - platform: mqtt
-    name: "dining"
-    state_topic: "stat/sonoff-dining/POWER2"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    device_class: motion
+    - name: "dining"
+      state_topic: "stat/sonoff-dining/POWER2"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
 
-  - platform: mqtt
-    name: "toilet"
-    state_topic: "stat/sonoff-toilet/POWER2"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    device_class: motion
+    - name: "toilet"
+      state_topic: "stat/sonoff-toilet/POWER2"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
 
-  - platform: mqtt
-    name: "bath"
-    state_topic: "stat/sonoff-bath/POWER2"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    device_class: motion
+    - name: "bath"
+      state_topic: "stat/sonoff-bath/POWER2"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
 
-  - platform: mqtt
-    name: "landing"
-    state_topic: "stat/sonoff-landing/POWER2"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    device_class: motion
+    - name: "landing"
+      state_topic: "stat/sonoff-landing/POWER2"
+      qos: 1
+      payload_on: "ON"
+      payload_off: "OFF"
+      device_class: motion
 
 # texecom sensors
-  - platform: mqtt
-    name: "alarm_study_pir"
-    state_topic: "homeassistant/binary_sensor/study_pir/state"
-    qos: 1
-    payload_on: "True"
-    payload_off: "False"
-    device_class: motion
+    - name: "alarm_study_pir"
+      state_topic: "homeassistant/binary_sensor/study_pir/state"
+      qos: 1
+      payload_on: "True"
+      payload_off: "False"
+      device_class: motion
 
-  - platform: mqtt
-    name: "alarm_kitchen_pir"
-    state_topic: "homeassistant/binary_sensor/kitchen_pir/state"
-    qos: 1
-    payload_on: "True"
-    payload_off: "False"
-    device_class: motion
+    - name: "alarm_kitchen_pir"
+      state_topic: "homeassistant/binary_sensor/kitchen_pir/state"
+      qos: 1
+      payload_on: "True"
+      payload_off: "False"
+      device_class: motion
 
-  - platform: mqtt
-    name: "alarm_living_hall_pir"
-    state_topic: "homeassistant/binary_sensor/living_hall_pir/state"
-    qos: 1
-    payload_on: "True"
-    payload_off: "False"
-    device_class: motion
+    - name: "alarm_living_hall_pir"
+      state_topic: "homeassistant/binary_sensor/living_hall_pir/state"
+      qos: 1
+      payload_on: "True"
+      payload_off: "False"
+      device_class: motion
 
-  - platform: mqtt
-    name: "alarm_loft_pir"
-    state_topic: "homeassistant/binary_sensor/loft_pir/state"
-    qos: 1
-    payload_on: "True"
-    payload_off: "False"
-    device_class: motion
+    - name: "alarm_loft_pir"
+      state_topic: "homeassistant/binary_sensor/loft_pir/state"
+      qos: 1
+      payload_on: "True"
+      payload_off: "False"
+      device_class: motion
 
-  - platform: mqtt
-    name: "alarm_stair_pir"
-    state_topic: "homeassistant/binary_sensor/stair_pir/state"
-    qos: 1
-    payload_on: "True"
-    payload_off: "False"
-    device_class: motion
+    - name: "alarm_stair_pir"
+      state_topic: "homeassistant/binary_sensor/stair_pir/state"
+      qos: 1
+      payload_on: "True"
+      payload_off: "False"
+      device_class: motion
 
-  - platform: mqtt
-    name: "alarm_toilet_pir"
-    state_topic: "homeassistant/binary_sensor/toilet_pir/state"
-    qos: 1
-    payload_on: "True"
-    payload_off: "False"
-    device_class: motion
+    - name: "alarm_toilet_pir"
+      state_topic: "homeassistant/binary_sensor/toilet_pir/state"
+      qos: 1
+      payload_on: "True"
+      payload_off: "False"
+      device_class: motion
 
-  - platform: mqtt
-    name: "alarm_kitchen_shock"
-    state_topic: "homeassistant/binary_sensor/kitchen_shock/state"
-    qos: 1
-    payload_on: "True"
-    payload_off: "False"
-    device_class: motion
+    - name: "alarm_kitchen_shock"
+      state_topic: "homeassistant/binary_sensor/kitchen_shock/state"
+      qos: 1
+      payload_on: "True"
+      payload_off: "False"
+      device_class: motion
 
-  - platform: mqtt
-    name: "alarm_bath_window"
-    state_topic: "homeassistant/binary_sensor/bath_window/state"
-    qos: 1
-    payload_on: "True"
-    payload_off: "False"
-    device_class: motion
+    - name: "alarm_bath_window"
+      state_topic: "homeassistant/binary_sensor/bath_window/state"
+      qos: 1
+      payload_on: "True"
+      payload_off: "False"
+      device_class: motion
 
-  - platform: mqtt
-    name: "alarm_bedroom_window"
-    state_topic: "homeassistant/binary_sensor/bedroom_window/state"
-    qos: 1
-    payload_on: "True"
-    payload_off: "False"
-    device_class: motion
+    - name: "alarm_bedroom_window"
+      state_topic: "homeassistant/binary_sensor/bedroom_window/state"
+      qos: 1
+      payload_on: "True"
+      payload_off: "False"
+      device_class: motion
 
 # combine 2 kitchen sensor into 1
-  - platform: template
-    sensors:
-      kitchen:
-        friendly_name: "kitchen"
-        device_class: motion
-        value_template: >-
-          {{ is_state('binary_sensor.kitchen_sonoff', 'on')
-             or is_state('binary_sensor.motion_sensor_158d00021621d5', 'on') }}
+#  - platform: template
+#    sensors:
+#      kitchen:
+#        friendly_name: "kitchen"
+#        device_class: motion
+#        value_template: >-
+#          {{ is_state('binary_sensor.kitchen_sonoff', 'on')
+#             or is_state('binary_sensor.motion_sensor_158d00021621d5', 'on') }}
